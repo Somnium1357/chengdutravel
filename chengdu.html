@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>청두 11일 솔로 여행 가이드 (AI 기능)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sticky-nav {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .section-title {
+            font-size: 1.75rem; /* text-2xl */
+            font-weight: 700; /* bold */
+            margin-bottom: 1rem; /* mb-4 */
+            color: #1f2937; /* gray-800 */
+        }
+        .subsection-title {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* semibold */
+            margin-top: 1.5rem; /* mt-6 */
+            margin-bottom: 0.75rem; /* mb-3 */
+            color: #374151; /* gray-700 */
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* shadow-lg */
+        }
+        .nav-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        .nav-button:hover, .nav-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        .checklist-item .icon {
+            margin-right: 0.75rem; /* mr-3 */
+            color: #6b7280; /* gray-500 */
+        }
+        .checklist-item.completed .icon {
+            color: #10b981; /* emerald-500 */
+        }
+        .checklist-item.completed .text {
+            text-decoration: line-through;
+            color: #6b7280; /* gray-500 */
+        }
+        .day-header {
+            cursor: pointer;
+            padding: 1rem;
+            background-color: #f3f4f6; /* gray-100 */
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-bottom: 0.5rem; /* mb-2 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .day-header:hover {
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        .day-content {
+            display: none;
+            padding: 1rem;
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            border-top: none;
+            border-radius: 0 0 0.5rem 0.5rem; /* rounded-b-lg */
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #d1d5db; /* gray-300 */
+            padding: 0.75rem; /* p-3 */
+            text-align: left;
+            font-size: 0.875rem; /* text-sm */
+        }
+        th {
+            background-color: #f9fafb; /* gray-50 */
+            font-weight: 600; /* semibold */
+        }
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+        .arrow.open {
+            transform: rotate(90deg);
+        }
+        .ai-feature-button {
+            background-color: #14b8a6; /* teal-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 0.75rem; /* mt-3 */
+        }
+        .ai-feature-button:hover {
+            background-color: #0d9488; /* teal-600 */
+        }
+        .ai-response-area {
+            margin-top: 0.75rem; /* mt-3 */
+            padding: 0.75rem; /* p-3 */
+            background-color: #f9fafb; /* gray-50 */
+            border-radius: 0.375rem; /* rounded-md */
+            font-size: 0.875rem; /* text-sm */
+            color: #374151; /* gray-700 */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            white-space: pre-wrap; /* To preserve line breaks from API response */
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <nav class="sticky-nav bg-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-teal-700">청두 AI 여행</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <button onclick="scrollToSection('overview')" class="nav-button text-gray-700">여행 개요</button>
+                        <button onclick="scrollToSection('checklist')" class="nav-button text-gray-700">출발 전 준비</button>
+                        <button onclick="scrollToSection('itinerary')" class="nav-button text-gray-700">상세 일정</button>
+                        <button onclick="scrollToSection('advice')" class="nav-button text-gray-700">필수 조언</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-teal-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="scrollToSection('overview'); toggleMobileMenu();" class="block nav-button text-gray-700 w-full text-left">여행 개요</button>
+                <button onclick="scrollToSection('checklist'); toggleMobileMenu();" class="block nav-button text-gray-700 w-full text-left">출발 전 준비</button>
+                <button onclick="scrollToSection('itinerary'); toggleMobileMenu();" class="block nav-button text-gray-700 w-full text-left">상세 일정</button>
+                <button onclick="scrollToSection('advice'); toggleMobileMenu();" class="block nav-button text-gray-700 w-full text-left">필수 조언</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <section id="overview" class="pt-10">
+            <div class="content-card">
+                <h1 class="section-title text-center text-3xl mb-6">당신의 완벽한 11일 청두 & 구채구 솔로 여행 (AI 지원)</h1>
+                <p class="text-lg text-center text-stone-700 mb-8">솔로 여행자로서 청두에 오신 것을 환영합니다! 이 가이드는 당신의 청두 모험을 위한 스마트폰 맞춤형 동반자입니다. 이제 Gemini AI의 도움으로 매일의 날씨와 옷차림까지 추천받아 더욱 스마트한 여행을 계획하세요!</p>
+                <h2 class="subsection-title">I. 한눈에 보는 여행: 청두 여정 전체 개요</h2>
+                <p class="text-stone-600 mb-4">여행 전체의 흐름을 파악하는 것은 특히 혼자 여행할 때 중요합니다. 아래 표는 11일간의 여정을 요약한 것으로, 각 날짜별 주요 활동과 숙박지를 빠르게 확인할 수 있어 전체적인 계획을 세우고 현지에서 일정을 참고하는 데 도움이 될 것입니다.</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>일차</th>
+                                <th>날짜 및 요일</th>
+                                <th>주요 활동 및 방문지</th>
+                                <th>숙박지</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>도착</td><td>5월 31일 (토)</td><td>청두 톈푸 국제공항(TFU) 도착, 숙소 이동 및 저녁 식사</td><td>청두</td></tr>
+                            <tr><td>1일</td><td>6월 1일 (일)</td><td>진사 유적 박물관, 관착항자</td><td>청두</td></tr>
+                            <tr><td>2일</td><td>6월 2일 (월)</td><td>무후사, 금리 고가</td><td>청두</td></tr>
+                            <tr><td>3일</td><td>6월 3일 (화)</td><td>낙산대불 당일치기 (고속철 이용)</td><td>청두</td></tr>
+                            <tr><td>4일</td><td>6월 4일 (수)</td><td>청두 출발 → 전장관역 이동, 황룡 풍경구 탐방, 구채구 지역 이동 및 숙박</td><td>구채구/황룡 지역</td></tr>
+                            <tr><td>5일</td><td>6월 5일 (목)</td><td>구채구 풍경구 집중 탐방, 전장관역 출발 → 청두 복귀</td><td>청두</td></tr>
+                            <tr><td>6일</td><td>6월 6일 (금)</td><td>두보초당, 안순랑교</td><td>청두</td></tr>
+                            <tr><td>7일</td><td>6월 7일 (토)</td><td>청두 박물관 신관, 청두 자연사 박물관</td><td>청두</td></tr>
+                            <tr><td>8일</td><td>6월 8일 (일)</td><td>인민공원(허밍차사), 퀘이싱로우지에</td><td>청두</td></tr>
+                            <tr><td>9일</td><td>6월 9일 (월)</td><td>지 미술관 , 타이쿠리 및 춘시루 쇼핑/산책</td><td>청두</td></tr>
+                            <tr><td>출발</td><td>6월 10일 (화)</td><td>청두 톈푸 국제공항(TFU)에서 출국</td><td>해당 없음</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="checklist" class="pt-10">
+            <div class="content-card">
+                <h2 class="section-title">II. 출발 전 완벽 준비: 청두 여행 필수 체크리스트</h2>
+                <p class="text-stone-600 mb-6">성공적인 솔로 여행의 시작은 철저한 사전 준비에서 비롯됩니다. 아래 체크리스트를 꼼꼼히 확인하여 예상치 못한 상황에 대비하고 여행의 즐거움을 온전히 누릴 수 있도록 준비하세요. 각 항목을 클릭하여 완료 표시를 할 수 있습니다.</p>
+                
+                <div id="checklist-items">
+                    <h3 class="subsection-title">A. 비자, 여권 및 중요 서류</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">중국 여행 비자 발급</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">여권 유효기간 확인 (여행 종료일로부터 6개월 이상)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">항공권/숙소/보험 서류 준비 (출력 또는 디지털)</span></div>
+
+                    <h3 class="subsection-title">B. 항공권 및 숙소 예약</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">청두 왕복 항공권 확정 (5/31 도착, 6/10 출발)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">청두 숙소 예약 ("위에지에 럭셔리 디자이너 스페이스 아파트" 9박)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">구채구 숙소 예약 (구채구구 근처 호텔 1박)</span></div>
+                    
+                    <h3 class="subsection-title">C. 중국 고속철도 티켓 예매</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">청두동역 ↔ 전장관역 구간 고속철도 예매</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">청두동역 ↔ 낙산역 구간 고속철도 예매</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">예매처 활용 (트립닷컴, 12306.cn)</span></div>
+
+                    <h3 class="subsection-title">D. 환전 및 결제 준비</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">알리페이/위챗페이 설치 및 카드 연동</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">소액 위안화 현금 준비</span></div>
+
+                    <h3 class="subsection-title">E. 인터넷 연결 및 VPN</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">VPN 앱 설치 및 한국에서 작동 테스트</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">현지 유심/로밍/eSIM 준비</span></div>
+
+                    <h3 class="subsection-title">F. 건강 및 안전</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">여행자 보험 가입 (영문 증권, 긴급 연락처 숙지)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">고산병 예방 상담 (필요시 예방약 처방)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">휴대용 산소통 준비 고려 (현지 구매 가능)</span></div>
+                    
+                    <h3 class="subsection-title">G. 복장 및 필수 준비물</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">계절 및 고산지대용 의류 (겹쳐 입을 옷, 방수/방풍 외투)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">편안한 운동화 (여러 켤레)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">우산, 자외선 차단 용품 (선크림, 모자, 선글라스)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">상비약 (소화제, 진통제, 멀미약, 개인 약)</span></div>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">보조 배터리, 멀티 어댑터</span></div>
+
+                    <h3 class="subsection-title">H. 언어 준비</h3>
+                    <div class="checklist-item" onclick="toggleChecklistItem(this)"><span class="icon">☐</span><span class="text">기본 중국어 회화 익히기 또는 번역 앱 설치/사용법 숙지</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="itinerary" class="pt-10">
+            <div class="content-card">
+                <h2 class="section-title">III. 상세 일일 여정: AI와 함께 청두 탐험</h2>
+                <p class="text-stone-600 mb-6">이제 본격적으로 청두와 그 주변 지역을 탐험하는 11일간의 여정을 상세히 안내합니다. 각 날짜를 클릭하면 상세 내용을 펼쳐볼 수 있습니다. 추천 활동, 식사, 교통편 정보와 함께, 각 날짜별 "✨ 오늘의 날씨 및 옷차림 추천" 버튼을 통해 AI의 도움을 받을 수 있습니다.</p>
+                <div id="daily-itinerary">
+                </div>
+            </div>
+        </section>
+
+        <section id="advice" class="pt-10 pb-10">
+            <div class="content-card">
+                <h2 class="section-title">IV. 청두 여행의 지혜: 솔로 여행자를 위한 필수 조언</h2>
+                <p class="text-stone-600 mb-6">이 섹션은 청두 및 구채구/황룡 솔로 여행을 더욱 안전하고 즐겁게 만들어 줄 핵심적인 조언들을 담고 있습니다. 단순한 팁을 넘어, 혼자 여행하는 동안 마주칠 수 있는 다양한 상황에 효과적으로 대처하고, 중국이라는 새로운 환경에 잘 적응하여 여행의 만족도를 높이는 데 중점을 둡니다.</p>
+                <div>
+                    <h3 class="subsection-title text-orange-600">A. 사전 예약의 중요성</h3>
+                    <p class="text-stone-600 mb-3">항공권과 숙소는 물론, 특히 청두-전장관 구간의 고속철도 티켓은 가능한 한 빨리 예약하는 것이 중요합니다. 중국의 고속철도는 인기가 많아 원하는 시간대의 표가 빠르게 매진될 수 있으며, 특히 성수기에는 더욱 그렇습니다. 솔로 여행자는 모든 예약을 스스로 챙겨야 하므로, 미리 준비하면 현지에서의 불확실성을 줄이고 스트레스 없이 여행에 집중할 수 있습니다.</p>
+                    <h3 class="subsection-title text-orange-600">B. 고산병, 철저히 대비하세요!</h3>
+                    <p class="text-stone-600 mb-3">구채구와 황룡은 해발 3,000m가 넘는 고산지대이므로 고산병에 대한 대비가 필수적입니다. 예방 조치를 취하고, 여행 중에는 몸의 반응을 잘 살피며 절대 무리하지 않는 것이 중요합니다. 천천히 걷고, 물을 자주 마시며, 충분한 수면을 취해야 합니다. 필요하다면 휴대용 산소통을 준비하고 사용법을 미리 숙지하는 것을 고려하십시오.</p>
+                    <h3 class="subsection-title text-orange-600">C. 현지 앱 활용은 필수</h3>
+                    <p class="text-stone-600 mb-3">중국 여행에서는 현지 앱 활용 능력이 여행의 질을 크게 좌우합니다. 맛집 검색 및 평가 확인에는 다중뎬핑(大众点评, Dianping), 지도 앱으로는 고더디투(高德地图, Amap) 또는 바이두디투(百度地图, Baidu Maps)를 추천합니다. 출국 전 미리 다운로드하고 기본적인 사용법을 익혀두면 큰 도움이 됩니다.</p>
+                    <h3 class="subsection-title text-orange-600">D. 여행 필수품 체크</h3>
+                    <p class="text-stone-600 mb-3">VPN, 모바일 결제 외에도 보조 배터리, 상비약(소화제, 진통제, 멀미약 등)도 잘 챙겨 만일의 상황에 대비해야 합니다.</p>
+                    <h3 class="subsection-title text-orange-600">E. 교통편, 한 번 더 확인!</h3>
+                    <p class="text-stone-600 mb-3">특히 구채구/황룡 지역의 버스 시간표는 예고 없이 변경될 수 있으므로, 현지에서 다시 한번 확인하거나 숙소 직원에게 문의하는 것이 안전합니다. 고속철도 시간표 역시 여행 직전에 다시 한번 확인하여 착오가 없도록 하는 것이 좋습니다.</p>
+                    <h3 class="subsection-title text-orange-600">F. 안전 제일!</h3>
+                    <p class="text-stone-600 mb-3">소지품 관리에 항상 유의하고, 늦은 밤에는 외진 곳을 피하며, 긴급 연락처(주청두 대한민국 총영사관 등)를 미리 저장해두세요. 가족이나 친구에게 대략적인 일정을 공유하는 것도 좋은 방법입니다.</p>
+                    <h3 class="subsection-title text-orange-600">G. 유연한 여행의 미학</h3>
+                    <p class="text-stone-600">이 여행 계획은 가이드라인이지만, 현지 상황이나 컨디션에 따라 일정을 유연하게 조절하세요. 솔로 여행의 가장 큰 장점은 모든 결정을 자신에게 맞출 수 있다는 점입니다. 계획에 너무 얽매이지 않고 순간의 이끌림을 따르는 용기가 때로는 최고의 여행을 만듭니다.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="bg-stone-800 text-stone-300 text-center p-6 mt-12">
+        <p>&copy; 2025 청두 AI 솔로 여행 가이드. 즐거운 여행 되세요!</p>
+    </footer>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function toggleChecklistItem(item) {
+            item.classList.toggle('completed');
+            const icon = item.querySelector('.icon');
+            icon.textContent = item.classList.contains('completed') ? '☑' : '☐';
+        }
+
+        const dailyItineraryData = [
+             {
+                day: "도착일: 5월 31일 (토)",
+                title: "청두 도착 및 첫인상",
+                location: "청두",
+                content: `
+                    <p class="mb-2">청두에서의 첫날은 긴 여정의 피로를 풀고, 도시의 첫인상을 느끼며 앞으로의 여행에 대한 기대감을 높이는 시간입니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후/저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>18:00:</strong> 청두 톈푸 국제공항(TFU) 도착, 입국 심사 및 수하물 수령.</li>
+                        <li><strong>공항 → 숙소 이동:</strong> 택시 또는 디디(Didi) 이용하여 춘시루 "위에지에 럭셔리 디자이너 스페이스 아파트"로 이동 (약 1시간~1시간 30분, 150~200위안). 숙소 주소 중국어로 준비.</li>
+                        <li><strong>19:30 - 20:30 (예상):</strong> 숙소 도착 및 체크인.</li>
+                        <li><strong>20:30 이후 (저녁 식사):</strong> 샤오롱칸 훠궈 (小龙坎火锅) 춘시루점. <br><em>추천:</em> 위안양궈(鸳鸯锅), 소고기, 야채 모둠, 새우 완자.</li>
+                        <li><strong>22:00 이후 (선택):</strong> 타이쿠리(太古里) 또는 춘시루(春熙路) 야경 산책.</li>
+                    </ul>
+                `
+            },
+            {
+                day: "1일차: 6월 1일 (일)",
+                title: "고대 촉나라 문명과 전통 골목 탐방",
+                location: "청두",
+                content: `
+                    <p class="mb-2">본격적인 청두 탐험의 첫날은 고대 촉나라의 신비로운 문명을 엿볼 수 있는 박물관과 청두의 전통적인 멋을 느낄 수 있는 거리를 방문합니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>아침 식사:</strong> 감식기 (甘食记) 춘시루점. <br><em>추천:</em> 페이창펀(肥肠粉), 량펀(凉粉).</li>
+                        <li><strong>활동:</strong> 진사 유적 박물관(金沙遗址博物馆) 방문.</li>
+                        <li><strong>교통 (춘시루 → 진사 유적 박물관):</strong> 지하철 2호선 춘시루역 → 통후이먼역(4호선 환승) → 진사박물관역 C출구 (약 30-40분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 진사 유적 박물관 근처 (다중뎬핑 앱에서 '金沙遗址博物馆 附近 川菜' 검색. 예: 문행주루, 홍령조중국채관). <br><em>추천:</em> 궁보기정(宫保鸡丁), 마파두부(麻婆豆腐), 회과육(回锅肉).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>활동:</strong> 관착항자(宽窄巷子) 탐험.</li>
+                        <li><strong>교통 (진사 유적 박물관 → 관착항자):</strong> 지하철 4호선 진사박물관역 → 관착항자역 B출구 (약 10-15분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 진마파두부 (陈麻婆豆腐) 뤄마스점. <br><em>추천:</em> 마파두부 (돌솥 버전), 궁보기정, 단단면, 차나무버섯 오리찜.</li>
+                        <li><strong>교통 (관착항자 → 진마파두부):</strong> 지하철 4호선 관착항자역 → 뤄마스역 G출구 후 도보 (약 15-20분).</li>
+                    </ul>
+                `
+            },
+            {
+                day: "2일차: 6월 2일 (월)",
+                title: "삼국시대의 흔적과 전통 거리 생활",
+                location: "청두",
+                content: `
+                    <p class="mb-2">삼국지의 주요 무대였던 청두에서 그 역사적 숨결을 느끼고, 활기 넘치는 전통 거리에서 현지인들의 생활 모습을 엿봅니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>아침 식사:</strong> 서월성담두화 (西月城谭豆花) 춘시루점. <br><em>추천:</em> 담두화(谭豆花), 단단면(担担面), 종수교(钟水饺), 첨수면(甜水面).</li>
+                        <li><strong>활동:</strong> 무후사(武侯祠) 방문.</li>
+                        <li><strong>교통 (춘시루 → 무후사):</strong> 지하철 3호선 춘시루역 → 가오성차오역 D/C출구 후 도보 약 10분 (약 15-20분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당 선택:</strong> 금리 고가 내 길거리 음식 (장페이 니우로우, 더우화 등) 또는 부처폐편 총점 (夫妻肺片总店) 총푸루점 (푸치페이피엔 추천, 무후사에서 거리 있음).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>활동:</strong> 금리 고대 거리(锦里古街) 탐방 (무후사에서 도보 5분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 카오장 마라 카오위 (烤匠麻辣烤鱼) IFS국제금융중심점. <br><em>추천:</em> 마라 카오위(麻辣烤鱼), 각종 야채/사리 추가.</li>
+                        <li><strong>교통 (금리/무후사 → 카오장):</strong> 가오성차오역(3호선) → 춘시루역 하차 후 도보 (약 20-25분).</li>
+                    </ul>
+                `
+            },
+            {
+                day: "3일차: 6월 3일 (화)",
+                title: "낙산대불의 위용 (당일치기)",
+                location: "낙산",
+                content: `
+                    <p class="mb-2">오늘은 청두 근교로 떠나 세계 최대 규모의 석각대불인 낙산대불의 웅장함을 직접 확인하는 당일치기 여행입니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>아침 식사:</strong> 한바오즈 (韩包子) 춘시루점. <br><em>추천:</em> 샤오롱바오(小笼包), 로우바오(肉包), 더우장(豆浆).</li>
+                        <li><strong>이동 (춘시루 → 낙산대불):</strong>
+                            <ol class="list-decimal list-inside ml-4">
+                                <li>춘시루 → 청두동역(成都东站): 지하철 2호선 (약 10분).</li>
+                                <li>청두동역 → 낙산역(乐山站): 고속철도 (약 45분, 사전 예매 필수).</li>
+                                <li>낙산역 → 낙산대불 매표소: 택시 (약 15분, 약 15위안).</li>
+                            </ol>
+                        </li>
+                        <li><strong>관람 팁:</strong> 유람선 투어(약 70위안) 추천.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 페이거 차오자오 니우로우 (飞哥跷脚牛肉) 낙산점. <br><em>추천:</em> 차오자오 니우로우(跷脚牛肉).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li>오전의 역순으로 청두 복귀. 고속철도 시간표 미리 확인.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 희림문훠궈 (喜临门火锅) 춘시루점 또는 더좡 훠궈 (德庄火锅). <br><em>추천:</em> 위안양궈, 소고기, 천엽(毛肚), 오리 창자(鸭肠).</li>
+                    </ul>
+                `
+            },
+             {
+                day: "4일차: 6월 4일 (수)",
+                title: "황룡 탐방 후 구채구 지역으로 이동",
+                location: "황룡, 구채구",
+                content: `
+                    <p class="mb-2">오늘은 청두를 떠나 자연의 경이로움을 간직한 황룡과 구채구로 향하는 여정의 시작입니다. 이른 아침부터 시작되는 바쁜 하루이며, 고산지대 적응이 중요합니다.</p>
+                    <p class="text-sm text-stone-600 mb-2"><strong>숙박:</strong> 구채구 풍경구 입구(구채구구) 근처 호텔 (예: 홀리데이 인 익스프레스 구채구, 힐튼 가든 인 구채구 등).</p>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>06:45~08:24:</strong> 청두동역 → 전장관역(镇江关站/황룡구채역) (C5782 열차 예시). (역 해발 약 2,977m, 무료 산소 흡입 장치 있음).</li>
+                        <li><strong>08:45~09:35 (예상):</strong> 전장관역 → 황룡 풍경구 이동 (사전 예약 차량/택시 권장, 약 50분~1.5시간).</li>
+                        <li><strong>09:45~13:45:</strong> 황룡 국립공원 탐방 (케이블카 상행 후 도보 하행 추천, 오채지 등).</li>
+                        <li><strong>13:45~14:30:</strong> 황룡 풍경구 근처 식사 또는 간편식.</li>
+                        <li><strong>14:45~16:45 (예상):</strong> 황룡 → 구채구 풍경구 입구(구채구구) 이동 (버스 현장 확인 필수 또는 택시, 약 1.5~2.5시간).</li>
+                        <li><strong>17:00 이후:</strong> 구채구구 호텔 체크인, 저녁 식사 및 휴식 (고산지대 적응). <br><em>저녁 식사:</em> 구채구구 내 티베트 전통 요리 또는 사천 요리.</li>
+                    </ul>
+                `
+            },
+            {
+                day: "5일차: 6월 5일 (목)",
+                title: "구채구 비경 집중 탐방 후 청두 복귀",
+                location: "구채구, 청두",
+                content: `
+                    <p class="mb-2">오늘은 '동화 속 세계'라 불리는 구채구의 아름다운 풍경을 만끽하는 날입니다. 넓은 구채구 풍경구를 효율적으로 탐방하고, 오후에는 다시 청두로 돌아가는 긴 여정이 이어집니다.</p>
+                    <p class="text-sm text-stone-600 mb-2"><strong>숙박:</strong> 청두 "위에지에 럭셔리 디자이너 스페이스 아파트".</p>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>07:30~16:00:</strong> 구채구 국립공원 집중 탐방 (셔틀버스 이용, 주요 명소: 오화해, 진주탄 폭포, 장해, 오채지 등).</li>
+                        <li><strong>점심:</strong> 공원 내 누오르랑 센터 식당 또는 간편식.</li>
+                        <li><strong>16:00~18:00:</strong> 구채구 풍경구 입구 → 전장관역 이동 (셔틀버스/택시, 시간표 확인).</li>
+                        <li><strong>19:00~19:30경:</strong> 전장관역 → 청두행 고속철도 탑승 (<strong>저녁 시간대 열차 시간표 사전 확인 및 예매 필수!</strong>).</li>
+                        <li><strong>21:00~22:00경:</strong> 청두동역 도착, 숙소 이동 및 휴식.</li>
+                    </ul>
+                `
+            },
+            {
+                day: "6일차: 6월 6일 (금)",
+                title: "시성 두보의 숨결과 강변의 낭만",
+                location: "청두",
+                content: `
+                    <p class="mb-2">구채구와 황룡의 강행군 후 맞이하는 하루는 조금 여유롭게 시작합니다. 중국 당나라 시대의 위대한 시인 두보의 발자취를 따라가고, 저녁에는 아름다운 강변의 야경을 즐깁니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>(늦잠 후) 아침 식사:</strong> 숙소 근처 현지 가게 (두유, 요우티아오 추천).</li>
+                        <li><strong>활동:</strong> 두보초당(杜甫草堂) 방문.</li>
+                        <li><strong>교통 (춘시루 → 두보초당):</strong> 지하철 2호선 춘시루역 → 중의대성병원역 후 도보 약 15분, 또는 지하철 4호선 차오탕루 북역 B출구 후 도보 약 15분.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 스징셩훠·촨퉁촨차이 (拾景生活·川菜) 또는 진마파두부 청화로점. <br><em>추천:</em> 회과육, 마파두부.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>활동:</strong> 안순랑교(安顺廊桥) 탐방.</li>
+                        <li><strong>교통 (두보초당/중의대성병원역 → 안순랑교):</strong> 지하철 2호선 중의대성병원역 → 동먼대교역 A출구 후 도보 (약 10-15분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당 선택:</strong> 안순랑교 위 '더 브릿지 (The Bridge)' (고급) 또는 지우옌차오 바 거리 주변 식당 (다중뎬핑 활용).</li>
+                    </ul>
+                `
+            },
+            {
+                day: "7일차: 6월 7일 (토)",
+                title: "청두의 역사와 자연을 담은 박물관 순례",
+                location: "청두",
+                content: `
+                    <p class="mb-2">오늘은 청두의 역사와 문화를 더 깊이 이해할 수 있는 박물관과 자연의 신비를 간직한 박물관을 차례로 방문하는 날입니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>아침 식사:</strong> 롱차오서우 (龙抄手) 춘시루 총점. <br><em>추천:</em> 롱차오서우(龙抄手), 단단면.</li>
+                        <li><strong>활동:</strong> 청두 박물관 신관(成都博物馆新馆) 방문.</li>
+                        <li><strong>교통 (춘시루 → 청두 박물관 신관):</strong> 지하철 2호선 춘시루역 → 톈푸광장역 서1 남/북 출구 (약 2분 + 도보).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 마씨 주방 (马氏厨房) 타이쿠리점. <br><em>추천:</em> 궁보기정, 궁바오 새우 가지.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>활동:</strong> 청두 자연사 박물관(成都自然史博物馆) 방문.</li>
+                        <li><strong>교통 (톈푸광장/타이쿠리 → 청두 자연사 박물관):</strong> 지하철 1호선 톈푸광장역 → 뤄마스역(8호선 환승) → 스리뎬역 B출구 (약 30-40분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 콴쟈이 스진 마오차이 (宽窄什锦冒菜) 콴쟈이샹즈점. <br><em>추천:</em> 마오차이(冒菜).</li>
+                    </ul>
+                `
+            },
+             {
+                day: "8일차: 6월 8일 (일)",
+                title: "현지인의 일상 속으로: 인민공원과 예술적 거리",
+                location: "청두",
+                content: `
+                    <p class="mb-2">오늘은 청두 현지인들의 여유로운 일상을 엿볼 수 있는 인민공원을 방문하고, 젊은 감각이 넘치는 예술적인 거리를 거닐어 봅니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>아침 식사:</strong> 그랜드 카페 (청두 그랜드 하얏트 호텔). <br><em>추천:</em> 뷔페식 아침.</li>
+                        <li><strong>활동:</strong> 인민공원(人民公园) 방문. <br><em>세부 활동:</em> 허밍차사(鹤鸣茶社)에서 차 마시기, 귀 청소 구경.</li>
+                        <li><strong>교통 (춘시루 → 인민공원):</strong> 지하철 2호선 춘시루역 → 인민공원역 B출구 (약 4분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> Yan Ting (宴庭) 인민공원점. <br><em>추천:</em> 볶음밥, 면 요리.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>활동:</strong> 퀘이싱로우지에(奎星楼街) 탐방 (인민공원에서 도보 15분).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 청두츠커 (成都吃客) 퀘이싱로우지에점. <br><em>추천:</em> 구운 생선 필레, 맨티스 새우, 숯불 돼지고기 삼겹살.</li>
+                    </ul>
+                `
+            },
+            {
+                day: "9일차: 6월 9일 (월)",
+                title: "현대 미술 감상과 도심 속 여유",
+                location: "청두",
+                content: `
+                    <p class="mb-2">여행 막바지에는 현대 미술을 감상하고, 청두의 번화가에서 쇼핑과 휴식을 즐기며 여유로운 시간을 보냅니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>아침 식사:</strong> 숙소 근처 현지 국수 전문점(成都面馆). <br><em>추천:</em> 단단면, 자장면.</li>
+                        <li><strong>활동:</strong> 지 미술관(知美术馆, Zhi Art Museum) 방문 (시내에서 거리 있음, 전시 정보 사전 확인).</li>
+                        <li><strong>교통 (춘시루 → 지 미술관):</strong> 지하철 2호선 춘시루역 → 톈푸광장역(1호선 환승) → 타이핑위안역(10호선 환승) → 신핑역 하차 후 택시 (총 1시간 이상).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">점심:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 마왕즈 (马旺子) 타이쿠리점 (미슐랭 1스타). <br><em>추천:</em> 궁보기정, 마파두부, 모혈왕, 첨피오리, 장어 요리, 소시지 솥밥 (웨이팅 주의).</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오후:</h4>
+                     <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>활동:</strong> 타이쿠리(太古里)와 춘시루(春熙路) 쇼핑 및 자유시간. <br><em>추천 장소:</em> 팡수오 서점(方所), IFS 판다 조형물.</li>
+                    </ul>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">저녁:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>식당:</strong> 장 카오야 (张烤鸭) 춘시루점. <br><em>추천:</em> 마오 카오야(冒烤鸭), 시에황 더우푸(蟹黄豆腐), 난과 정로우(南瓜蒸肉).</li>
+                    </ul>
+                `
+            },
+            {
+                day: "출발일: 6월 10일 (화)",
+                title: "청두 출발",
+                location: "청두",
+                content: `
+                    <p class="mb-2">아쉬움을 뒤로하고 청두를 떠나는 날입니다. 출국 수속 시간을 고려하여 여유 있게 공항으로 이동합니다.</p>
+                    <h4 class="font-semibold text-teal-700 mt-3 mb-1">오전:</h4>
+                    <ul class="list-disc list-inside text-sm text-stone-600 space-y-1">
+                        <li><strong>06:00 ~ 07:00:</strong> 기상, 간단한 아침 식사, 숙소 체크아웃 준비.</li>
+                        <li><strong>공항 이동:</strong> 택시 또는 디디(Didi) 이용하여 청두 톈푸 국제공항(TFU)으로 이동 (약 1시간~1시간 30분, 150~200위안, 교통 체증 고려).</li>
+                        <li><strong>09:00:</strong> 출국 수속 및 청두 출발.</li>
+                    </ul>
+                `
+            }
+        ];
+
+        const itineraryContainer = document.getElementById('daily-itinerary');
+        dailyItineraryData.forEach((item, index) => {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('mb-4');
+            const dayId = `day-${index}`;
+            
+            let aiFeatureHtml = '';
+            if (item.title !== "청두 출발") {
+                 aiFeatureHtml = `
+                    <button class="ai-feature-button" onclick="getWeatherRecommendation('${dayId}', '${item.day}', '${item.location}')">✨ 오늘의 날씨 및 옷차림 추천</button>
+                    <div id="ai-response-${dayId}" class="ai-response-area hidden"></div>
+                `;
+            }
+
+            dayElement.innerHTML = `
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span>${item.day} - ${item.title}</span>
+                    <span class="arrow text-teal-600">▶</span>
+                </div>
+                <div class="day-content bg-white">
+                    ${item.content}
+                    ${aiFeatureHtml}
+                </div>
+            `;
+            itineraryContainer.appendChild(dayElement);
+        });
+
+        function toggleDay(headerElement) {
+            const contentElement = headerElement.nextElementSibling;
+            const arrowElement = headerElement.querySelector('.arrow');
+            if (contentElement.style.display === 'block') {
+                contentElement.style.display = 'none';
+                arrowElement.classList.remove('open');
+            } else {
+                contentElement.style.display = 'block';
+                arrowElement.classList.add('open');
+            }
+        }
+
+        async function getWeatherRecommendation(dayId, dayString, location) {
+            const responseArea = document.getElementById(`ai-response-${dayId}`);
+            responseArea.classList.remove('hidden');
+            responseArea.textContent = 'AI가 날씨와 옷차림을 추천 중입니다... 잠시만 기다려주세요.';
+
+            const dateForPrompt = dayString.split(':')[1].trim().split(' (')[0].trim(); 
+            const locationForPrompt = location; 
+            
+            const prompt = `오늘은 ${dateForPrompt}이고, 주요 여행지는 ${locationForPrompt}입니다. ${locationForPrompt}의 ${dateForPrompt} 예상 날씨와 그에 따른 적절한 옷차림을 한국어로 추천해주세요. 날씨 정보는 간략하게 (예: 맑음, 최고/최저 기온) 포함해주고, 고산지대(황룡, 구채구)의 경우 고산병 주의사항도 간략히 언급해주세요.`;
+
+            const apiKey = "AIzaSyC54ioU9F1-A9w_Zk08ZLY-mhryVwhPl0M"; // 사용자께서 제공해주신 API 키입니다.
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    responseArea.textContent = `날씨 정보를 가져오는 데 실패했습니다. (오류: ${response.status})`;
+                    if (errorData.error && errorData.error.message) {
+                         responseArea.textContent += ` ${errorData.error.message}`;
+                    }
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    responseArea.textContent = text;
+                } else {
+                    console.error('Unexpected API response structure:', result);
+                    responseArea.textContent = 'AI로부터 유효한 답변을 받지 못했습니다. 응답 구조를 확인해주세요.';
+                     if (result.promptFeedback && result.promptFeedback.blockReason) {
+                        responseArea.textContent += ` (차단 사유: ${result.promptFeedback.blockReason})`;
+                    }
+                }
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                responseArea.textContent = '날씨 정보를 가져오는 중 네트워크 오류가 발생했습니다.';
+            }
+        }
+
+    </script>
+</body>
+</html>
