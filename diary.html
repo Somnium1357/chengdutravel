@@ -55,14 +55,14 @@
         .diary-entry textarea {
             width: 100%;
             min-height: 120px;
-            background-color: #2f2f2f; /* 살짝 밝은 배경 */
+            background-color: #2f2f2f;
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             padding: 10px;
             font-family: var(--font-sans);
             font-size: 0.95em;
             color: var(--text-primary);
-            resize: vertical; /* 세로 크기만 조절 가능 */
+            resize: vertical;
         }
         .diary-entry button {
             background-color: var(--accent-color);
@@ -77,6 +77,12 @@
         }
         .diary-entry button:hover {
             background-color: #357ABD;
+        }
+        .save-feedback {
+            font-size: 0.85em;
+            color: var(--accent-color);
+            margin-left: 10px;
+            display: none; /* 초기에는 숨김 */
         }
         .back-link {
             display: inline-block;
@@ -98,73 +104,114 @@
         </header>
         <a href="index.html" class="back-link">← 여행 계획으로 돌아가기</a>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-05-31">
             <h3>도착일: 5월 31일 (토) - 청두에서의 첫인상</h3>
-            <textarea placeholder="오늘 하루 어땠나요? 기억하고 싶은 순간들을 적어보세요..."></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-05-31" placeholder="오늘 하루 어땠나요? 기억하고 싶은 순간들을 적어보세요..."></textarea>
+            <button onclick="saveDiary('2025-05-31')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-05-31"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-01">
             <h3>1일차: 6월 1일 (일) - 고대 문명과 전통 거리</h3>
-            <textarea placeholder="오늘의 발견, 느낀 점을 자유롭게 기록해보세요..."></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-01" placeholder="오늘의 발견, 느낀 점을 자유롭게 기록해보세요..."></textarea>
+            <button onclick="saveDiary('2025-06-01')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-01"></span>
         </div>
-
-        <div class="diary-entry">
+        
+        <div class="diary-entry" id="diary-2025-06-02">
             <h3>2일차: 6월 2일 (월) - 삼국지와 옛 거리의 향기</h3>
-            <textarea placeholder="가장 인상 깊었던 것은 무엇인가요?"></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-02" placeholder="가장 인상 깊었던 것은 무엇인가요?"></textarea>
+            <button onclick="saveDiary('2025-06-02')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-02"></span>
         </div>
         
-        <!-- 3일차부터 출발일까지 각 날짜별 diary-entry 블록을 위와 같이 추가합니다. -->
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-03">
             <h3>3일차: 6월 3일 (화) - 웅장한 낙산대불을 마주하다</h3>
-            <textarea placeholder="오늘은 어떤 경험을 하셨나요?"></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-03" placeholder="오늘은 어떤 경험을 하셨나요?"></textarea>
+            <button onclick="saveDiary('2025-06-03')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-03"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-04">
             <h3>4일차: 6월 4일 (수) - 황룡의 비경과 고산지대로</h3>
-            <textarea placeholder="고산지대에서의 느낌은 어땠나요?"></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-04" placeholder="고산지대에서의 느낌은 어땠나요?"></textarea>
+            <button onclick="saveDiary('2025-06-04')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-04"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-05">
             <h3>5일차: 6월 5일 (목) - 구채구의 물빛에 반하다</h3>
-            <textarea placeholder="사진으로 담기 힘든 아름다움, 글로 남겨보세요..."></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-05" placeholder="사진으로 담기 힘든 아름다움, 글로 남겨보세요..."></textarea>
+            <button onclick="saveDiary('2025-06-05')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-05"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-06">
             <h3>6일차: 6월 6일 (금) - 시인의 발자취를 따라</h3>
-            <textarea placeholder="두보초당과 안순랑교의 낭만..."></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-06" placeholder="두보초당과 안순랑교의 낭만..."></textarea>
+            <button onclick="saveDiary('2025-06-06')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-06"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-07">
             <h3>7일차: 6월 7일 (토) - 박물관에서 만난 청두</h3>
-            <textarea placeholder="새롭게 알게 된 것이 있나요?"></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-07" placeholder="새롭게 알게 된 것이 있나요?"></textarea>
+            <button onclick="saveDiary('2025-06-07')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-07"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-08">
             <h3>8일차: 6월 8일 (일) - 현지인의 삶 엿보기</h3>
-            <textarea placeholder="인민공원에서의 차 한잔, 퀘이싱로우지에의 활기..."></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-08" placeholder="인민공원에서의 차 한잔, 퀘이싱로우지에의 활기..."></textarea>
+            <button onclick="saveDiary('2025-06-08')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-08"></span>
         </div>
 
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-09">
             <h3>9일차: 6월 9일 (월) - 예술과 쇼핑, 도시의 매력</h3>
-            <textarea placeholder="오늘 가장 마음에 들었던 것은 무엇인가요?"></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-09" placeholder="오늘 가장 마음에 들었던 것은 무엇인가요?"></textarea>
+            <button onclick="saveDiary('2025-06-09')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-09"></span>
         </div>
         
-        <div class="diary-entry">
+        <div class="diary-entry" id="diary-2025-06-10">
             <h3>출발일: 6월 10일 (화) - 여행을 마무리하며</h3>
-            <textarea placeholder="이번 여행에서 가장 기억에 남는 것은 무엇인가요? 전체적인 소감을 적어주세요."></textarea>
-            <button onclick="alert('일기 저장 기능은 현재 지원되지 않습니다. (UI 데모)')">일기 저장 (임시)</button>
+            <textarea id="text-2025-06-10" placeholder="이번 여행에서 가장 기억에 남는 것은 무엇인가요? 전체적인 소감을 적어주세요."></textarea>
+            <button onclick="saveDiary('2025-06-10')">일기 저장</button>
+            <span class="save-feedback" id="feedback-2025-06-10"></span>
         </div>
 
     </div>
+
+    <script>
+        function saveDiary(dateKey) {
+            const textareaId = 'text-' + dateKey;
+            const feedbackId = 'feedback-' + dateKey;
+            const content = document.getElementById(textareaId).value;
+            localStorage.setItem('diary-' + dateKey, content);
+            
+            const feedbackElement = document.getElementById(feedbackId);
+            feedbackElement.textContent = '저장됨!';
+            feedbackElement.style.display = 'inline';
+            setTimeout(() => {
+                feedbackElement.style.display = 'none';
+            }, 2000); // 2초 후 메시지 숨김
+        }
+
+        function loadDiaries() {
+            const diaryEntries = document.querySelectorAll('.diary-entry');
+            diaryEntries.forEach(entry => {
+                const dateKey = entry.id.replace('diary-', '');
+                const textareaId = 'text-' + dateKey;
+                const savedContent = localStorage.getItem('diary-' + dateKey);
+                if (savedContent) {
+                    document.getElementById(textareaId).value = savedContent;
+                }
+            });
+        }
+
+        // 페이지 로드 시 저장된 일기 불러오기
+        window.onload = loadDiaries;
+    </script>
 </body>
 </html>
