@@ -17,7 +17,7 @@
             --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             --border-radius: 6px;
         }
-        html { scroll-behavior: smooth; } /* 부드러운 스크롤 효과 */
+        html { scroll-behavior: smooth; } 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: var(--font-sans);
@@ -25,7 +25,7 @@
             color: var(--text-primary);
             font-size: 16px;
             line-height: 1.6;
-            -webkit-tap-highlight-color: transparent; /* 터치 시 하이라이트 색상 제거 */
+            -webkit-tap-highlight-color: transparent; 
         }
         .page-container {
             max-width: 800px;
@@ -81,10 +81,11 @@
             background-color: #357ABD;
         }
         .save-feedback {
-            font-size: 0.85em;
+            font-size: 1.1em; 
             color: var(--accent-color);
             margin-left: 10px;
-            display: none; /* 초기에는 숨김 */
+            display: none; 
+            line-height: 1; 
         }
         .back-link {
             display: inline-block;
@@ -96,6 +97,42 @@
         .back-link:hover {
             text-decoration: underline;
         }
+
+        /* 오늘의 기분/날씨 선택기 스타일 */
+        .mood-weather-selector {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--divider-color);
+        }
+        .mood-weather-selector h5 {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .mood-icons-group, .weather-icons-group {
+            display: flex;
+            gap: 10px; /* 아이콘 간 간격 */
+            margin-bottom: 10px;
+            flex-wrap: wrap; 
+        }
+        .mood-icon, .weather-icon {
+            font-size: 1.6em; /* 아이콘 크기 */
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--border-radius);
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            user-select: none; 
+        }
+        .mood-icon:hover, .weather-icon:hover {
+            transform: scale(1.15);
+        }
+        .mood-icon.selected, .weather-icon.selected {
+            background-color: rgba(74, 144, 226, 0.25); 
+            box-shadow: 0 0 0 2px var(--accent-color); 
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -106,9 +143,11 @@
         </header>
         <a href="index.html" class="back-link">← 여행 계획으로 돌아가기</a>
 
+        <!-- 각 날짜별 일기 항목 -->
         <div class="diary-entry" id="diary-2025-05-31">
             <h3>도착일: 5월 31일 (토) - 청두에서의 첫인상</h3>
             <textarea id="text-2025-05-31" placeholder="오늘 하루 어땠나요? 기억하고 싶은 순간들을 적어보세요..."></textarea>
+            <!-- 기분/날씨 선택기는 JS로 동적 삽입 -->
             <button onclick="saveDiary('2025-05-31')">일기 저장</button>
             <span class="save-feedback" id="feedback-2025-05-31"></span>
         </div>
@@ -185,70 +224,186 @@
 
     </div>
     <a href="#" id="scrollToTopBtn" title="맨 위로 이동" style="position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; text-decoration: none; display: none; z-index: 100;">↑</a>
-<script>
-    function saveDiary(dateKey) {
-        const textareaId = 'text-' + dateKey;
-        const feedbackId = 'feedback-' + dateKey;
-        const content = document.getElementById(textareaId).value;
-        localStorage.setItem('diary-' + dateKey, content);
-        
-        const feedbackElement = document.getElementById(feedbackId);
-        feedbackElement.innerHTML = '✔️'; // 저장 피드백을 체크 아이콘으로 변경
-        feedbackElement.style.display = 'inline';
-        setTimeout(() => {
-            feedbackElement.style.display = 'none';
-        }, 2000); // 2초 후 메시지 숨김
-    }
+    <script>
+        // 아이콘 데이터 정의
+        const moodOptions = [
+            { value: "😄", title: "매우 좋음" },
+            { value: "😊", title: "좋음" },
+            { value: "😐", title: "보통" },
+            { value: "😟", title: "나쁨" },
+            { value: "😢", title: "매우 나쁨" }
+        ];
+        const weatherOptions = [
+            { value: "☀️", title: "맑음" },
+            { value: "🌤️", title: "대체로 맑음" },
+            { value: "☁️", title: "흐림" },
+            { value: "🌧️", title: "비" },
+            { value: "💨", title: "바람" }
+        ];
 
-    // textarea 높이 자동 조절 함수
-    function autoResizeTextarea(textarea) {
-        textarea.style.height = 'auto'; 
-        textarea.style.height = textarea.scrollHeight + 'px';
-    }
+        // 기분/날씨 선택기 HTML 생성 함수
+        function createMoodWeatherSelectorElement() {
+            const selectorDiv = document.createElement('div');
+            selectorDiv.className = 'mood-weather-selector';
 
-    function loadDiaries() {
-        const diaryEntries = document.querySelectorAll('.diary-entry');
-        diaryEntries.forEach(entry => {
-            const dateKey = entry.id.replace('diary-', '');
-            const textareaId = 'text-' + dateKey;
-            const savedContent = localStorage.getItem('diary-' + dateKey);
-            const textareaElement = document.getElementById(textareaId);
-            if (savedContent) {
-                textareaElement.value = savedContent;
-                // 페이지 로드 시 높이 조절은 window.onload에서 일괄 처리
-            }
-        });
-    }
+            const title = document.createElement('h5');
+            title.textContent = '오늘의 기분 & 날씨:';
+            selectorDiv.appendChild(title);
 
-    // 페이지 로드 시 실행될 함수들
-    window.onload = function() {
-        loadDiaries(); // 일기 내용 불러오기
-
-        // textarea 자동 높이 조절 기능 초기화
-        const textareas = document.querySelectorAll('.diary-entry textarea');
-        textareas.forEach(textarea => {
-            // 입력 시 높이 자동 조절 이벤트 리스너 추가
-            textarea.addEventListener('input', function() {
-                autoResizeTextarea(this);
+            const moodGroup = document.createElement('div');
+            moodGroup.className = 'mood-icons-group';
+            moodOptions.forEach(opt => {
+                const span = document.createElement('span');
+                span.className = 'mood-icon';
+                span.dataset.value = opt.value;
+                span.title = opt.title;
+                span.textContent = opt.value;
+                moodGroup.appendChild(span);
             });
-            // 페이지 로드 시 이미 내용이 있는 경우 높이 조절
-            if (textarea.value) {
-                autoResizeTextarea(textarea);
-            }
-        });
+            selectorDiv.appendChild(moodGroup);
 
-        // 최상단으로 이동 버튼 스크립트
-        const scrollToTopBtn_diary = document.getElementById('scrollToTopBtn');
-        if (scrollToTopBtn_diary) {
-            window.addEventListener('scroll', function() {
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    scrollToTopBtn_diary.style.display = "block";
-                } else {
-                    scrollToTopBtn_diary.style.display = "none";
-                }
+            const weatherGroup = document.createElement('div');
+            weatherGroup.className = 'weather-icons-group';
+            weatherOptions.forEach(opt => {
+                const span = document.createElement('span');
+                span.className = 'weather-icon';
+                span.dataset.value = opt.value;
+                span.title = opt.title;
+                span.textContent = opt.value;
+                weatherGroup.appendChild(span);
             });
+            selectorDiv.appendChild(weatherGroup);
+
+            return selectorDiv;
         }
-    }; // window.onload 끝
-</script>
+
+        function saveDiary(dateKey) {
+            const textareaId = 'text-' + dateKey;
+            const feedbackId = 'feedback-' + dateKey;
+            const diaryEntryElement = document.getElementById('diary-' + dateKey); 
+
+            const content = document.getElementById(textareaId).value;
+            
+            let selectedMood = null;
+            const selectedMoodIcon = diaryEntryElement.querySelector('.mood-icon.selected'); 
+            if (selectedMoodIcon) {
+                selectedMood = selectedMoodIcon.dataset.value;
+            }
+
+            let selectedWeather = null;
+            const selectedWeatherIcon = diaryEntryElement.querySelector('.weather-icon.selected'); 
+            if (selectedWeatherIcon) {
+                selectedWeather = selectedWeatherIcon.dataset.value;
+            }
+
+            const diaryData = {
+                text: content,
+                mood: selectedMood,
+                weather: selectedWeather
+            };
+            
+            localStorage.setItem('diary-' + dateKey, JSON.stringify(diaryData)); 
+            
+            const feedbackElement = document.getElementById(feedbackId);
+            feedbackElement.innerHTML = '✔️'; 
+            feedbackElement.style.display = 'inline';
+            setTimeout(() => {
+                feedbackElement.style.display = 'none';
+            }, 2000); 
+        }
+
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto'; 
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        function loadDiaryData(dateKey) {
+            const diaryEntryElement = document.getElementById('diary-' + dateKey); 
+            const textareaId = 'text-' + dateKey;
+            const textareaElement = document.getElementById(textareaId);
+
+            const savedDataString = localStorage.getItem('diary-' + dateKey);
+            if (savedDataString) {
+                const savedData = JSON.parse(savedDataString); 
+                textareaElement.value = savedData.text || '';
+
+                if (savedData.mood) {
+                    const moodIconToSelect = diaryEntryElement.querySelector(`.mood-icon[data-value="${savedData.mood}"]`);
+                    if (moodIconToSelect) {
+                        diaryEntryElement.querySelectorAll('.mood-icon.selected').forEach(icon => icon.classList.remove('selected'));
+                        moodIconToSelect.classList.add('selected');
+                    }
+                }
+                if (savedData.weather) {
+                    const weatherIconToSelect = diaryEntryElement.querySelector(`.weather-icon[data-value="${savedData.weather}"]`);
+                    if (weatherIconToSelect) {
+                        diaryEntryElement.querySelectorAll('.weather-icon.selected').forEach(icon => icon.classList.remove('selected'));
+                        weatherIconToSelect.classList.add('selected');
+                    }
+                }
+            }
+        }
+
+        window.onload = function() {
+            const diaryEntries = document.querySelectorAll('.diary-entry');
+            diaryEntries.forEach(entry => {
+                const dateKey = entry.id.replace('diary-', '');
+                
+                const moodWeatherSelector = createMoodWeatherSelectorElement();
+                const textareaElement = entry.querySelector('textarea');
+                
+                if (textareaElement && textareaElement.nextSibling) {
+                     textareaElement.parentNode.insertBefore(moodWeatherSelector, textareaElement.nextSibling);
+                } else if (textareaElement) { 
+                    textareaElement.parentNode.appendChild(moodWeatherSelector);
+                }
+
+
+                loadDiaryData(dateKey); 
+
+                if (textareaElement) {
+                    textareaElement.addEventListener('input', function() {
+                        autoResizeTextarea(this);
+                    });
+                    if (textareaElement.value) {
+                        autoResizeTextarea(textareaElement);
+                    }
+                }
+
+                const moodIcons = moodWeatherSelector.querySelectorAll('.mood-icon');
+                moodIcons.forEach(icon => {
+                    icon.addEventListener('click', function() {
+                        const currentSelection = this.classList.contains('selected');
+                        moodWeatherSelector.querySelectorAll('.mood-icon.selected').forEach(selected => selected.classList.remove('selected'));
+                        if (!currentSelection) { // 이미 선택된 것을 다시 누르면 선택 해제된 상태로 유지
+                           this.classList.add('selected');
+                        }
+                    });
+                });
+
+                const weatherIcons = moodWeatherSelector.querySelectorAll('.weather-icon');
+                weatherIcons.forEach(icon => {
+                    icon.addEventListener('click', function() {
+                        const currentSelection = this.classList.contains('selected');
+                        moodWeatherSelector.querySelectorAll('.weather-icon.selected').forEach(selected => selected.classList.remove('selected'));
+                         if (!currentSelection) { // 이미 선택된 것을 다시 누르면 선택 해제된 상태로 유지
+                            this.classList.add('selected');
+                        }
+                    });
+                });
+            });
+
+            const scrollToTopBtn_diary = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn_diary) {
+                window.addEventListener('scroll', function() {
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        scrollToTopBtn_diary.style.display = "block";
+                    } else {
+                        scrollToTopBtn_diary.style.display = "none";
+                    }
+                });
+            }
+        }; 
+    </script>
 </body>
 </html>
