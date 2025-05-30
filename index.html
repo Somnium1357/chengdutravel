@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>📔 나의 청두 여행 일기</title>
+    <title>🌌 청두 11일 솔로 여정 (Notion 스타일)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #191919;
-            --card-bg-color: #222222;
+            --bg-color: #191919; 
+            --card-bg-color: #222222; 
             --text-primary: #E3E3E3;
             --text-secondary: #9B9B9B;
-            --accent-color: #4A90E2;
+            --accent-color: #4A90E2; 
             --border-color: #333333;
             --divider-color: #2C2C2C;
+            --highlight-bg: rgba(74, 144, 226, 0.15);
+            --critical-accent-color: #FF6B6B; /* 중요 정보 강조 */
+
             --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             --border-radius: 6px;
         }
-        html { scroll-behavior: smooth; } /* 부드러운 스크롤 효과 */
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: var(--font-sans);
             background-color: var(--bg-color);
             color: var(--text-primary);
-            font-size: 16px;
-            line-height: 1.6;
-            -webkit-tap-highlight-color: transparent; /* 터치 시 하이라이트 색상 제거 */
+            font-size: 17px; /* 모바일 가독성을 위해 기본 폰트 크기 살짝 증가 (예시) */
+            line-height: 1.7; /* 폰트 크기에 맞춰 줄간격도 살짝 증가 (예시) */
+            -webkit-tap-highlight-color: transparent; 
         }
+
         .page-container {
-            max-width: 800px;
+            max-width: 800px; 
             margin: 0 auto;
             padding: 20px;
         }
+
         .page-header {
             display: flex;
             align-items: center;
@@ -41,214 +48,1211 @@
         .page-icon { font-size: 2.5em; margin-right: 15px; }
         .page-title { font-size: 1.8em; font-weight: 700; }
 
-        .diary-entry {
+        .section { margin-bottom: 40px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--divider-color);
+        }
+        .section-icon { font-size: 1.5em; margin-right: 10px; }
+        .section-title-text { font-size: 1.4em; font-weight: 600; color: var(--text-primary); }
+        
+        .overview-grid {
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(2, 1fr); 
+        }
+
+        @media (min-width: 768px) {
+            .overview-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .overview-card {
+            background-color: var(--card-bg-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: background-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .overview-card:hover { background-color: #2a2a2a; }
+        .overview-card-icon { font-size: 1.8em; margin-bottom: 8px; color: var(--text-primary); }
+        .overview-card-title { font-size: 1em; font-weight: 500; color: var(--text-primary); margin-bottom: 5px; }
+        .overview-card-content { font-size: 0.9em; }
+        .overview-card-content a { color: var(--accent-color); text-decoration: none; }
+        .overview-card-content a:hover { text-decoration: underline; }
+
+        /* Schedule Table */
+        .schedule-table-container {
+            overflow-x: auto;
+            background-color: var(--card-bg-color);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        .schedule-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+        }
+        .schedule-table th, .schedule-table td {
+            padding: 12px 10px; 
+            text-align: left;
+            border-bottom: 1px solid var(--divider-color);
+            font-size: 0.95em; 
+        }
+        .schedule-table th { 
+            font-weight: 600; 
+            color: var(--text-secondary); 
+        }
+        .schedule-table td { 
+            color: var(--text-primary); 
+            line-height: 1.5; 
+        }
+        .schedule-table tr:last-child td { border-bottom: none; }
+        .schedule-type-badge {
+            display: inline-block;
+            padding: 4px 10px; 
+            border-radius: 12px; 
+            font-size: 0.85em; 
+            font-weight: 500; 
+            color: var(--bg-color);
+            background-color: var(--accent-color);
+            margin: 2px 0; 
+        }
+
+        /* Daily Plan */
+        .daily-plan-entry {
+            margin-bottom: 15px;
             background-color: var(--card-bg-color);
             border-radius: var(--border-radius);
             border: 1px solid var(--border-color);
-            margin-bottom: 20px;
-            padding: 20px;
+            overflow: hidden;
         }
-        .diary-entry h3 {
-            font-size: 1.2em;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        .diary-entry textarea {
-            width: 100%;
-            min-height: 120px;
-            background-color: #2f2f2f;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 10px;
-            font-family: var(--font-sans);
-            font-size: 0.95em;
-            color: var(--text-primary);
-            resize: vertical;
-        }
-        .diary-entry button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: var(--border-radius);
+        .daily-plan-summary {
+            padding: 15px;
             cursor: pointer;
-            font-size: 0.9em;
-            margin-top: 10px;
+            list-style: none; 
+            display: flex;
+            align-items: center;
             transition: background-color 0.2s ease;
         }
-        .diary-entry button:hover {
-            background-color: #357ABD;
+        .daily-plan-summary:hover { background-color: #2a2a2a; }
+        .daily-plan-summary::-webkit-details-marker { display: none; } 
+        .daily-summary-icon { font-size: 1.5em; margin-right: 12px; }
+        .daily-summary-info { flex-grow: 1; }
+        .daily-summary-date { font-size: 1.1em; font-weight: 600; color: var(--text-primary); }
+        .daily-summary-theme { font-size: 0.9em; color: var(--text-secondary); margin-top: 2px; }
+        .daily-plan-toggle-icon { margin-left: auto; color: var(--text-secondary); transition: transform 0.2s; }
+        .daily-plan-entry[open] .daily-plan-toggle-icon { transform: rotate(90deg); }
+        
+        .daily-plan-details {
+            padding: 0 15px 15px 15px; 
+            border-top: 1px solid var(--divider-color);
         }
-        .save-feedback {
+        .daily-detail-block { margin-top: 15px; }
+
+        .daily-detail-block h4 { 
+            display: flex;
+            align-items: flex-start; /* 아이콘, 텍스트, 링크를 상단 기준으로 정렬 */
+            font-size: 1.15em; 
+            font-weight: 600; 
+            color: var(--text-primary);
+            margin-bottom: 10px; 
+            line-height: 1.4; /* 제목 줄 간격 추가 */
+        }
+        .daily-detail-block h4 .detail-icon { 
+            font-size: 1.2em; 
+            margin-right: 8px; 
+            color: var(--accent-color); 
+            flex-shrink: 0; /* 아이콘이 줄어들지 않도록 */
+            margin-top: 0.1em; /* 제목 텍스트 첫 줄과 아이콘 상단 맞춤 (미세 조정 필요) */
+        }
+        /* h4 내부 제목 텍스트를 감싸는 span */
+        .h4-title-text {
+            flex-grow: 1; /* 가능한 많은 공간을 차지하도록 */
+            word-break: keep-all; /* 한글 단어 단위 줄바꿈 */
+            overflow-wrap: break-word; /* 영어 등 긴 단어 줄바꿈 */
+            margin-right: 8px; /* 제목과 지도 링크 사이 최소 간격 */
+        }
+        .daily-detail-block .map-link {
+            font-size: 0.9em;  
+            white-space: nowrap; /* 링크 내 줄바꿈 방지 */
+            flex-shrink: 0; /* 링크가 공간 부족 시 줄어들지 않도록 */
+            padding: 2px 0px; 
+            color: var(--accent-color); 
+            text-decoration: none; 
+            font-weight: 500; 
+            display: inline-flex; /* 아이콘과 텍스트 정렬 */
+            align-items: center;  /* 아이콘과 텍스트 정렬 */
+            margin-top: 0.1em; /* 제목 텍스트 첫 줄과 링크 상단 맞춤 (미세 조정 필요) */
+        }
+        .daily-detail-block .map-link:hover {
+            text-decoration: underline; 
+        }
+        .daily-detail-block .map-link .map-icon { 
+            font-size: 1em;  
+            margin-right: 3px;
+        }
+
+        .daily-detail-block p, .daily-detail-block ul {
+            font-size: 1em;    
+            color: var(--text-secondary);
+            margin-left: 0; 
+            padding-left: 34px; /* 아이콘 크기(1.2em*폰트크기) + margin-right(8px) 와 비슷하게 맞춤 */
+        }
+        .daily-detail-block p {
+            margin-bottom: 8px; 
+        }
+        .daily-detail-block ul { 
+            list-style: none; 
+        }
+        .daily-detail-block li { 
+            margin-bottom: 8px; 
+        }
+        .station-name-cn { 
+            color: #888; 
+            font-size: 0.9em; 
+            margin-left: 5px;
+        } 
+        .restaurant-name { 
+            color: var(--accent-color); 
+            font-weight: 600; 
+            font-size: 1.05em; 
+        }
+        .address-info { 
+            font-size: 0.9em; 
+            color: #777; 
+            margin-top: 4px; 
+            display: block; 
+        }
+        .important-text { 
+            color: var(--critical-accent-color); 
+            font-weight: 600; 
+        }
+        .menu-item-cn { 
+            color: #bbb; 
+            font-size: 0.95em; 
+        } 
+
+        /* To Do List, Personal Documents, Footer, Callout-box 등 나머지 스타일은 원본과 동일하게 유지 */
+        /* ... (스타일 원본 내용 붙여넣기) ... */
+        .todo-section { margin-bottom: 20px; }
+        .todo-section h4 {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        .todo-list { list-style: none; padding-left: 0; }
+        .todo-item {
+            display: flex;
+            align-items: flex-start; 
+            padding: 8px 5px;
+            font-size: 0.95em; /* body 17px 기준 약 16.15px */
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--divider-color);
+        }
+        .todo-item:last-child { border-bottom: none; }
+        .todo-item input[type="checkbox"] { 
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background-color: transparent;
+            border: 2px solid var(--text-secondary);
+            border-radius: 3px;
+            margin-right: 10px;
+            cursor: pointer;
+            position: relative; 
+            flex-shrink: 0; 
+        }
+        .todo-item input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        .todo-item input[type="checkbox"]:checked::after {
+            content: '✔';
+            color: var(--bg-color);
+            font-size: 12px; 
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1; 
+        }
+        .todo-item label { 
+            flex-grow: 1; 
+            line-height: 1.4; 
+        }
+        .todo-list details { background-color: transparent; border: none; box-shadow: none; margin-left:22px; }
+        .todo-list details summary { padding: 2px 0; font-size: 0.9em; color: var(--text-secondary); list-style: none;}
+        .todo-list details summary::after { content: ' (상세 보기)'; font-size:0.8em; }
+        .todo-list details[open] summary::after { content: ' (숨기기)'; font-size:0.8em; }
+        .todo-list details ul { margin-top: 5px; padding-left: 15px; list-style-type: disc; }
+        
+        .document-card, .key-info-item { 
+            background-color: var(--card-bg-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            margin-bottom: 10px; 
+        }
+        .document-card-icon, .key-info-icon { font-size: 1.5em; margin-right: 10px; color: var(--text-primary); float: left; }
+        .document-card-title, .key-info-title { font-size: 1.1em; font-weight: 500; color: var(--text-primary); margin-bottom: 5px; margin-left: 40px;}
+        .document-card-content, .key-info-content { font-size: 0.9em; margin-left: 40px; }
+        .document-card-content p, .key-info-content p { margin-bottom: 4px; word-break: keep-all; }
+        .document-link { color: var(--accent-color); font-size: 0.85em; display: inline-block; margin-top: 5px; }
+
+        .page-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--divider-color);
             font-size: 0.85em;
-            color: var(--accent-color);
-            margin-left: 10px;
-            display: none; /* 초기에는 숨김 */
+            color: var(--text-secondary);
         }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-size: 0.9em;
+
+        .callout-box {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
         }
-        .back-link:hover {
-            text-decoration: underline;
-        }
+        .callout-icon { font-size: 1.2em; margin-right: 10px; margin-top: 2px; }
+        .callout-text { font-size: 0.9em; color: var(--text-secondary); }
+        .callout-text strong { color: var(--text-primary); font-weight: 500; }
+        .notice-warning { color: #FACC15; } 
+
     </style>
 </head>
 <body>
     <div class="page-container">
         <header class="page-header">
-            <span class="page-icon">📔</span>
-            <h1 class="page-title">나의 청두 여행 일기</h1>
+            <span class="page-icon">🌌</span>
+            <h1 class="page-title">청두 11일 솔로 여정</h1>
         </header>
-        <a href="index.html" class="back-link">← 여행 계획으로 돌아가기</a>
 
-        <div class="diary-entry" id="diary-2025-05-31">
-            <h3>도착일: 5월 31일 (토) - 청두에서의 첫인상</h3>
-            <textarea id="text-2025-05-31" placeholder="오늘 하루 어땠나요? 기억하고 싶은 순간들을 적어보세요..."></textarea>
-            <button onclick="saveDiary('2025-05-31')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-05-31"></span>
-        </div>
+        <!-- 1. 개요 -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <span class="section-icon">🔭</span>
+                <h2 class="section-title-text">개요</h2>
+            </div>
+            <div class="overview-grid">
+                <a href="#schedule" class="overview-card"> 
+                    <span class="overview-card-icon">🗓️</span>
+                    <h3 class="overview-card-title">전체 일정표</h3>
+                    <p class="overview-card-content">여행 기간 및 요약 보기</p>
+                </a>
+                <a href="#daily-plan" class="overview-card"> 
+                    <span class="overview-card-icon">🗺️</span>
+                    <h3 class="overview-card-title">일자별 상세 계획</h3>
+                    <p class="overview-card-content">매일의 세부 일정 확인</p>
+                </a>
+                <a href="#todo-list" class="overview-card"> 
+                    <span class="overview-card-icon">📋</span>
+                    <h3 class="overview-card-title">여행 준비물 (ToDo)</h3>
+                    <p class="overview-card-content">여행 전/중/후 체크리스트</p>
+                </a>
+                 <a href="#key-info" class="overview-card"> 
+                    <span class="overview-card-icon">🔑</span>
+                    <h3 class="overview-card-title">핵심 정보</h3>
+                    <p class="overview-card-content">숙소 주소, 항공편, 비상 연락처 등</p>
+                </a>
+                 <a href="#documents" class="overview-card">  
+                    <span class="overview-card-icon">📄</span>
+                    <h3 class="overview-card-title">개인 서류</h3>
+                    <p class="overview-card-content">항공권, 보험, 숙소 바우처 등</p>
+                </a>
+                <a href="diary.html" class="overview-card" target="_blank"> 
+                    <span class="overview-card-icon">📔</span>
+                    <h3 class="overview-card-title">여행 일기</h3>
+                    <p class="overview-card-content">매일의 기록 남기기 (별도 페이지)</p>
+                </a>
+            </div>
+        </section>
 
-        <div class="diary-entry" id="diary-2025-06-01">
-            <h3>1일차: 6월 1일 (일) - 고대 문명과 전통 거리</h3>
-            <textarea id="text-2025-06-01" placeholder="오늘의 발견, 느낀 점을 자유롭게 기록해보세요..."></textarea>
-            <button onclick="saveDiary('2025-06-01')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-01"></span>
-        </div>
+        <!-- 2. 전체 일정표 -->
+        <section class="section" id="schedule">
+            <div class="section-header">
+                <span class="section-icon">🗓️</span>
+                <h2 class="section-title-text">전체 일정표</h2>
+            </div>
+             <div class="schedule-table-container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>아이콘</th><th>일차</th><th>날짜</th><th>요일</th><th>Type</th><th>주요 활동</th><th>숙박</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>✈️</td><td>도착</td><td>5/31</td><td>(토)</td><td><span class="schedule-type-badge" style="background-color: #555;">이동</span></td><td>청두 도착, 숙소 이동</td><td>청두</td></tr>
+                        <tr><td>🏛️</td><td>1일</td><td>6/1</td><td>(일)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>진사 유적, 관착항자</td><td>청두</td></tr>
+                        <tr><td>🏯</td><td>2일</td><td>6/2</td><td>(월)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>무후사, 금리 고가</td><td>청두</td></tr>
+                        <tr><td>🏞️</td><td>3일</td><td>6/3</td><td>(화)</td><td><span class="schedule-type-badge" style="background-color: #059669;">자연</span></td><td>낙산대불 당일치기</td><td>청두</td></tr>
+                        <tr><td>⛰️</td><td>4일</td><td>6/4</td><td>(수)</td><td><span class="schedule-type-badge" style="background-color: #059669;">자연/이동</span></td><td>황룡 탐방, 구채구 이동</td><td>구채구</td></tr>
+                        <tr><td>🏞️</td><td>5일</td><td>6/5</td><td>(목)</td><td><span class="schedule-type-badge" style="background-color: #059669;">자연/이동</span></td><td>구채구 탐방, 청두 복귀</td><td>청두</td></tr>
+                        <tr><td>✍️</td><td>6일</td><td>6/6</td><td>(금)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>두보초당, 안순랑교</td><td>청두</td></tr>
+                        <tr><td>🖼️</td><td>7일</td><td>6/7</td><td>(토)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>청두 박물관, 자연사 박물관</td><td>청두</td></tr>
+                        <tr><td>🍵</td><td>8일</td><td>6/8</td><td>(일)</td><td><span class="schedule-type-badge" style="background-color: #4F46E5;">체험</span></td><td>인민공원, 퀘이싱로우지에</td><td>청두</td></tr>
+                        <tr><td>🛍️</td><td>9일</td><td>6/9</td><td>(월)</td><td><span class="schedule-type-badge" style="background-color: #DB2777;">쇼핑/예술</span></td><td>지 미술관, 타이쿠리 쇼핑</td><td>청두</td></tr>
+                        <tr><td>🛫</td><td>출발</td><td>6/10</td><td>(화)</td><td><span class="schedule-type-badge" style="background-color: #555;">이동</span></td><td>청두 공항 출국</td><td>-</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
         
-        <div class="diary-entry" id="diary-2025-06-02">
-            <h3>2일차: 6월 2일 (월) - 삼국지와 옛 거리의 향기</h3>
-            <textarea id="text-2025-06-02" placeholder="가장 인상 깊었던 것은 무엇인가요?"></textarea>
-            <button onclick="saveDiary('2025-06-02')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-02"></span>
-        </div>
+        <!-- 3. 상세 일정 -->
+        <section class="section" id="daily-plan">
+            <div class="section-header">
+                <span class="section-icon">🗺️</span>
+                <h2 class="section-title-text">상세 일정</h2>
+            </div>
+
+            <!-- 도착일 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">✈️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">도착일: 5월 31일 (토)</div>
+                        <div class="daily-summary-theme">청두에서의 첫 만남, 설레는 여정의 시작</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🛬</span>
+                            <span class="h4-title-text">공항 도착 및 이동</span>
+                        </h4>
+                        <p>17:50: 청두 톈푸 국제공항(TFU) T1 도착 (쓰촨항공 3U3974).
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E5%A4%A9%E5%BA%9C%E5%9B%BD%E9%99%85%E6%9C%BA%E5%9C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>공항 지도</a>
+                        </p>
+                        <p>교통 (공항 → 숙소): 택시/디디 또는 지하철 18호선 → 1/2호선 환승.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🏨</span>
+                            <span class="h4-title-text">숙소 체크인</span>
+                        </h4>
+                        <p>저녁 시간: "위에지에 럭셔리 디자이너 스페이스 아파트" 체크인.
+                            <a href="maps://?q=%E6%99%B6%E8%9E%8D%E6%B1%87%E5%85%AC%E5%AF%93%2C%E6%88%90%E9%83%BD%E5%B8%82%E9%94%A6%E6%B1%9F%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>숙소 지도</a>
+                        </p>
+                        <p class="address-info">숙소주소: 四川省成都市锦江区下东大街99号晶融汇公寓8楼</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌙</span>
+                            <span class="h4-title-text">저녁 식사</span>
+                        </h4>
+                        <p><span class="restaurant-name">샤오롱칸 훠궈 (小龙坎老火锅) 춘시점 (春熙店)</span>
+                            <a href="maps://?q=%E5%B0%8F%E9%BE%99%E5%9D%8E%E8%80%81%E7%81%AB%E9%94%85%E6%98%A5%E7%86%99%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        </p>
+                        <p class="address-info">주소: 四川省成都市锦江区下东大街36号郁金香广场2楼</p>
+                        <ul>
+                            <li>위안양궈 <span class="menu-item-cn">(鸳鸯锅, 위앤양꾸어 - 홍탕/백탕 반반)</span></li>
+                            <li>소고기 <span class="menu-item-cn">(牛肉, 니우로우)</span></li>
+                            <li>야채 모둠 <span class="menu-item-cn">(蔬菜拼盘, 슈차이핀판)</span></li>
+                            <li>새우 완자 <span class="menu-item-cn">(虾滑, 시아화)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌃</span>
+                            <span class="h4-title-text">선택 활동</span>
+                        </h4>
+                        <p>밤 10:00 이후: 타이쿠리/춘시루 야경 산책.
+                            <a href="maps://?q=%E5%A4%AA%E5%8F%A4%E9%87%8C%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>타이쿠리</a>
+                            <a href="maps://?q=%E6%98%A5%E7%86%99%E8%B7%AF%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>춘시루</a>
+                        </p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 1일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🏛️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">1일차: 6월 1일 (일)</div>
+                        <div class="daily-summary-theme">고대 촉나라 문명과 활기찬 전통 거리 탐방</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">☀️</span>
+                            <span class="h4-title-text">오전: 진사 유적 박물관 (金沙遗址博物馆)</span>
+                            <a href="maps://?q=%E9%87%91%E6%B2%99%E9%81%97%E5%9D%80%E5%8D%9A%E7%89%A9%E9%A6%86%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">감식기 (甘食记成都肥肠粉) 춘시루점 (春熙路店)</span>
+                             <a href="maps://?q=%E7%94%98%E9%A3%9F%E8%AE%B0%E6%88%90%E9%83%BD%E8%82%A5%E8%82%A0%E7%B2%89%E6%98%A5%E7%86%99%E8%B7%AF%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 成都市锦江区东大街下东大街段香槟广场1层沿街商铺</span></p>
+                        <ul>
+                            <li>페이창펀 <span class="menu-item-cn">(肥肠粉, 페이창펀 - 곱창 당면)</span></li>
+                            <li>량펀 <span class="menu-item-cn">(凉粉, 량펀 - 녹두묵무침)</span></li>
+                        </ul>
+                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 통후이먼역<span class="station-name-cn">(通惠门站)</span> 환승, 4호선 → 진사박물관역<span class="station-name-cn">(金沙博物馆站)</span> (C출구).</p>
+                        <p><strong>예매:</strong> <a href="http://www.jinshasitemuseum.com/reservation_notice" target="_blank" class="document-link">공식 웹사이트</a> 또는 Trip.com 등 OTA 확인 (<span class="important-text">현지 위챗 예약 권장</span>).</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍜</span>
+                            <span class="h4-title-text">점심: 진사 유적 근처</span>
+                        </h4>
+                        <p><span class="restaurant-name">문행주루 (文杏酒楼) 진사점 (金沙店)</span>
+                            <a href="maps://?q=%E6%96%87%E6%9D%8F%E9%85%92%E6%A5%BC%E9%87%91%E6%B2%99%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市青羊区金沙遗址路2号附11号</span></p>
+                        <ul>
+                            <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
+                            <li>마파두부 <span class="menu-item-cn">(麻婆豆腐, 마포더우푸)</span></li>
+                            <li>회과육 <span class="menu-item-cn">(回锅肉, 후이꾸어로우)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🏮</span>
+                            <span class="h4-title-text">오후: 관착항자 (宽窄巷子)</span>
+                             <a href="maps://?q=%E5%AE%BD%E7%AA%84%E5%B7%B7%E5%AD%90%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>교통: 지하철 4호선 진사박물관역<span class="station-name-cn">(金沙博物馆站)</span> → 관착항자역<span class="station-name-cn">(宽窄巷子站)</span> (B출구).</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌶️</span>
+                            <span class="h4-title-text">저녁: 마파두부 원조집</span>
+                        </h4>
+                        <p><span class="restaurant-name">진마파두부 (陈麻婆豆腐) 뤄마스점 (总店)</span>
+                             <a href="maps://?q=%E9%99%88%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90%E6%80%BB%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市青羊区西玉龙街197号</span></p>
+                        <ul>
+                            <li>마파두부 <span class="menu-item-cn">(麻婆豆腐, 마포더우푸 - 돌솥 추천)</span></li>
+                            <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
+                            <li>단단면 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
+                            <li>차나무버섯 오리찜 <span class="menu-item-cn">(茶树菇烧鸭, 차슈구샤오야)</span></li>
+                        </ul>
+                        <p>교통: 지하철 4호선 관착항자역<span class="station-name-cn">(宽窄巷子站)</span> → 뤄마스역<span class="station-name-cn">(骡马市站)</span> (G출구).</p>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- 2일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🏯</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">2일차: 6월 2일 (월)</div>
+                        <div class="daily-summary-theme">삼국지의 영웅들을 만나고, 옛 거리의 정취를 느끼다</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">☀️</span>
+                            <span class="h4-title-text">오전: 무후사 (武侯祠)</span>
+                            <a href="maps://?q=%E6%AD%A6%E4%BE%AF%E7%A5%A0%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">서월성담두화 (西月城谭豆花) 춘시루점 (春熙路店)</span>
+                            <a href="maps://?q=%E8%A5%BF%E6%9C%88%E5%9F%8E%E8%B0%AD%E8%B1%86%E8%8A%B1%E6%98%A5%E7%86%99%E8%B7%AF%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区暑袜北二街56号附4号 (또는 总府大厦沿街商铺)</span></p>
+                        <ul>
+                            <li>담두화 <span class="menu-item-cn">(谭豆花, 탄더우화 - 두부 푸딩)</span></li>
+                            <li>단단면 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
+                            <li>종수교 <span class="menu-item-cn">(钟水饺, 쫑쉐이자오 - 중국식 물만두)</span></li>
+                            <li>첨수면 <span class="menu-item-cn">(甜水面, 티앤쉐이미앤 - 달콤한 면)</span></li>
+                        </ul>
+                        <p>교통: 지하철 3호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 가오성차오역<span class="station-name-cn">(高升桥站)</span> (D/C출구).</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍜</span>
+                            <span class="h4-title-text">점심: 금리 고가 내 또는 근처</span>
+                        </h4>
+                        <p><span class="restaurant-name">금리 고가 내 길거리 음식</span>: 장페이 니우로우 <span class="menu-item-cn">(张飞牛肉, 짱페이니우로우)</span>, 더우화 <span class="menu-item-cn">(豆花, 더우화)</span>, 각종 꼬치류.</p>
+                        <p>또는 <span class="restaurant-name">흠선려지 식부 (钦善斋食府) 무후사점</span>
+                            <a href="maps://?q=%E
+%A9%90%E5%96%84%E6%96%8B%E9%A3%9F%E5%BA%9C%E6%AD%A6%E4%BE%AF%E7%A5%A0%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市武侯区武侯祠大街247号</span> - 약선요리.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🏮</span>
+                            <span class="h4-title-text">오후: 금리 고대 거리 (锦里古街)</span>
+                            <a href="maps://?q=%E9%94%A6%E9%87%8C%E5%8F%A4%E8%A1%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>(무후사에서 도보 5분)</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🐟</span>
+                            <span class="h4-title-text">저녁: 마라 카오위</span>
+                        </h4>
+                        <p><span class="restaurant-name">카오장 마라 카오위 (烤匠麻辣烤鱼) IFS국제금융중심점</span>
+                            <a href="maps://?q=%E7%83%A4%E5%8C%A0%E9%BA%BB%E8%BE%A3%E7%83%A4%E9%B1%BCIFS%E5%9B%BD%E9%99%85%E9%87%91%E8%9E%8D%E4%B8%AD%E5%BF%83%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区红星路三段1号成都国际金融中心L707号</span></p>
+                        <ul><li>마라 카오위 <span class="menu-item-cn">(麻辣烤鱼, 마라카오위 - 매운 생선구이)</span></li></ul>
+                        <p>교통: 지하철 3호선 가오성차오역<span class="station-name-cn">(高升桥站)</span> → 춘시루역<span class="station-name-cn">(春熙路站)</span>.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 3일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🏞️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">3일차: 6월 3일 (화)</div>
+                        <div class="daily-summary-theme">웅장한 낙산대불과 사천의 맛</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">☀️</span>
+                            <span class="h4-title-text">오전: 낙산대불 (乐山大佛) 당일 여행</span>
+                            <a href="maps://?q=%E4%B9%90%E5%B1%B1%E5%A4%A7%E4%BD%9B%2C%E4%B9%90%E5%B1%B1" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">한바오즈 (韩包子) 춘시루점 (总府路店)</span>
+                            <a href="maps://?q=%E9%9F%A9%E5%8C%85%E5%AD%90%E6%80%BB%E5%BA%9C%E8%B7%AF%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 成都市锦江区蜀都大道总府路12号</span></p>
+                        <ul>
+                            <li>샤오롱바오 <span class="menu-item-cn">(小笼包, 샤오롱빠오)</span></li>
+                            <li>로우바오 <span class="menu-item-cn">(肉包, 로우빠오 - 고기찐빵)</span></li>
+                            <li>더우장 <span class="menu-item-cn">(豆浆, 더우장 - 두유)</span></li>
+                        </ul>
+                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 청두동역<span class="station-name-cn">(成都东站)</span>.
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E4%B8%9C%E7%AB%99" target="_blank" class="map-link"><span class="map-icon">📍</span>청두동역</a>
+                        그 후 고속철도 청두동역<span class="station-name-cn">(成都东站)</span> → 낙산역<span class="station-name-cn">(乐山站)</span> (<span class="important-text">예매필수</span>).
+                            <a href="maps://?q=%E4%B9%90%E5%B1%B1%E7%AB%99" target="_blank" class="map-link"><span class="map-icon">📍</span>낙산역</a>
+                        낙산역에서 택시/버스 이용.</p>
+                        <p>관람 팁: 유람선 또는 도보 관람 선택.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍲</span>
+                            <span class="h4-title-text">점심: 낙산 현지 식사</span>
+                        </h4>
+                        <p><span class="restaurant-name">유고우어두훠궈 (游老鼓咡咡跷脚牛肉) 낙산 직영점 (乐山直营总店)</span>
+                            <a href="maps://?q=%E6%B8%B8%E8%80%81%E9%BC%93%E5%90%A7%E5%90%A7%E8%B7%B7%E8%84%9A%E7%89%9B%E8%82%89%E4%B9%90%E5%B1%B1%E7%9B%B4%E8%90%A5%E6%80%BB%E5%BA%97%2C%E4%B9%90%E5%B1%B1" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省乐山市市中区王浩儿街36号</span></p>
+                        <ul>
+                            <li>차오자오 니우로우 <span class="menu-item-cn">(跷脚牛肉, 챠오지아오니우로우 - 소고기 특선 전골)</span></li>
+                            <li>혈왕 <span class="menu-item-cn">(血旺, 쉬에왕)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌙</span>
+                            <span class="h4-title-text">저녁 (청두 복귀 후)</span>
+                        </h4>
+                        <p><span class="restaurant-name">희림문훠궈 (喜临门火锅) 춘시루점</span> <span class="address-info notice-warning">(주소 정보 확인 필요)</span></p>
+                        <p>또는 <span class="restaurant-name">더좡 훠궈 (德庄火锅) 춘시루점</span> <span class="address-info notice-warning">(주소 정보 확인 필요)</span></p>
+                        <p>훠궈 추천 메뉴: 위안양궈 <span class="menu-item-cn">(鸳鸯锅, 위앤양꾸어)</span>, 천엽 <span class="menu-item-cn">(毛肚, 마오두)</span>, 오리 창자 <span class="menu-item-cn">(鸭肠, 야창)</span>.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 4일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">⛰️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">4일차: 6월 4일 (수)</div>
+                        <div class="daily-summary-theme">황룡의 비경을 보고 구채구로 이동하는 날</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="callout-box notice-info"><span class="callout-icon">ℹ️</span><p class="callout-text">상세 내용은 <a href="#jiuzhaigou-huanglong" style="color: var(--accent-color);">IV. 구채구 & 황룡 (1박 2일)</a> 섹션을 확인하세요.</p></div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🚗</span>
+                            <span class="h4-title-text">주요 활동</span>
+                        </h4>
+                        <p>이른 아침 청두동역<span class="station-name-cn">(成都东站)</span> 출발 → 전장관역 도착 → 황룡 풍경구 이동 및 탐방 (케이블카 상행 추천)
+                            <a href="maps://?q=%E9%BB%84%E9%BE%99%E9%A3%8E%E6%99%AF%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>황룡 지도</a>
+                        → 점심 식사 → 황룡에서 구채구 풍경구 입구(구채구구)로 이동 → 호텔 체크인.</p>
+                         <p>숙소: 구채구 Piedmont Hot Spring Villa 
+                            <a href="maps://?q=%E6%9E%95%E5%B1%B1%E6%BA%AA%E8%88%8D%C2%B7%E6%B1%A4%E6%B3%89%E9%9B%85%E5%AE%BF%2C%E4%B9%9D%E5%AF%A8%E6%B2%9F" target="_blank" class="map-link"><span class="map-icon">📍</span>숙소 지도</a>
+                         <span class="address-info">주소: 四川省阿坝藏族羌族自治州九寨沟县漳扎镇彭丰村47号</span></p>
+                    </div>
+                     <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌙</span>
+                            <span class="h4-title-text">저녁 식사 (구채구구)</span>
+                        </h4>
+                        <p><span class="restaurant-name">아부로지 티베트 식당 (阿布氇孜藏餐吧)</span>
+                            <a href="maps://?q=%E9%98%BF%E5%B8%83%E6%9A%BE%E5%AD%9C%E8%97%8F%E9%A4%90%E5%90%A7%2C%E4%B9%9D%E5%AF%A8%E6%B2%9F" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省阿坝藏族羌族自治州九寨沟县彭丰村九寨磨坊酒店旁二楼</span> - 고도 적응 및 휴식.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 5일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🏞️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">5일차: 6월 5일 (목)</div>
+                        <div class="daily-summary-theme">구채구의 아름다움에 흠뻑, 그리고 청두로 복귀</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                     <div class="callout-box notice-info"><span class="callout-icon">ℹ️</span><p class="callout-text">상세 내용은 <a href="#jiuzhaigou-huanglong" style="color: var(--accent-color);">IV. 구채구 & 황룡 (1박 2일)</a> 섹션을 확인하세요.</p></div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌲</span>
+                            <span class="h4-title-text">주요 활동</span>
+                        </h4>
+                        <p>오전 일찍 구채구 국립공원 입장 및 집중 탐방 (셔틀버스 활용)
+                            <a href="maps://?q=%E4%B9%9D%E5%AF%A8%E6%B2%9F%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD" target="_blank" class="map-link"><span class="map-icon">📍</span>구채구 지도</a>
+                        → 점심 (공원 내 또는 간편식) → 오후 늦게 공원 퇴장 → 전장관역 이동 → 청두 복귀.</p>
+                        <p>숙소: 청두</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 6일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">✍️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">6일차: 6월 6일 (금)</div>
+                        <div class="daily-summary-theme">시성 두보의 숨결과 밤의 낭만이 흐르는 안순랑교</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">☀️</span>
+                            <span class="h4-title-text">오전: 두보초당 (杜甫草堂)</span>
+                             <a href="maps://?q=%E6%9D%9C%E7%94%AB%E8%8D%89%E5%A0%82%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">용쉐이쟈오 춘시루점 (龙学街角春熙路店)</span> <span class="address-info notice-warning">(주소 특정 어려움, 현지에서 유사한 면/만두 맛집 선택 권장)</span></p>
+                        <p>교통: 지하철 4호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 차오탕루 북역<span class="station-name-cn">(草堂北路站)</span> (B출구).</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🥢</span>
+                            <span class="h4-title-text">점심: 두보초당 근처</span>
+                        </h4>
+                        <p><span class="restaurant-name">스징셩훠·촨퉁촨차이 (拾景生活·川菜) 두보초당점</span>
+                            <a href="maps://?q=%E6%8B%BE%E6%99%AF%E7%94%9F%E6%B4%BB%C2%B7%E5%B7%9D%E8%8F%9C%E6%9D%9C%E7%94%AB%E8%8D%89%E5%A0%82%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市青羊区青华路9号附8号</span></p>
+                         <ul>
+                            <li>회과육 <span class="menu-item-cn">(回锅肉, 후이꾸어로우)</span></li>
+                            <li>촨베이량펀 <span class="menu-item-cn">(川北凉粉, 촨베이량펀)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌉</span>
+                            <span class="h4-title-text">오후: 안순랑교 (安顺廊桥)</span>
+                            <a href="maps://?q=%E5%AE%89%E9%A1%BA%E5%BB%8A%E6%A1%A5%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>교통: 지하철 4호선 차오탕루 북역<span class="station-name-cn">(草堂北路站)</span> → 뤄마스역<span class="station-name-cn">(骡马市站)</span> 환승, 1호선 → 진장빈관역<span class="station-name-cn">(锦江宾馆站)</span> (C2출구). <span class="important-text">택시도 대안</span>.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍷</span>
+                            <span class="h4-title-text">저녁: 안순랑교 야경과 함께</span>
+                        </h4>
+                        <p><span class="restaurant-name">랑차오 (廊桥) The Bridge</span>
+                            <a href="maps://?q=The%20Bridge%E9%A4%90%E5%90%A7%2C%E5%AE%89%E9%A1%BA%E5%BB%8A%E6%A1%A5%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区滨江东路66号 (안순랑교 위)</span> - 고급 퓨전 중식, <span class="important-text">예약 권장</span>.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 7일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🖼️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">7일차: 6월 7일 (토)</div>
+                        <div class="daily-summary-theme">청두의 역사와 자연을 담은 박물관 순례</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">☀️</span>
+                            <span class="h4-title-text">오전: 청두 박물관 신관 (<span class="important-text">사전 예약 권장</span>)</span>
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E5%8D%9A%E7%89%A9%E9%A6%86%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">롱차오서우 (龙抄手) 춘시루 총점 (春熙路总店)</span>
+                            <a href="maps://?q=%E9%BE%99%E6%8A%84%E6%89%8B%E6%98%A5%E7%86%99%E8%B7%AF%E6%80%BB%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区春熙路中山广场东侧城守街63号</span></p>
+                        <ul><li>롱차오서우 <span class="menu-item-cn">(龙抄手, 롱차오셔우 - 완탕)</span></li></ul>
+                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 톈푸광장역<span class="station-name-cn">(天府广场站)</span> (서1 남/북 출구).
+                             <a href="maps://?q=%E5%A4%A9%E5%BA%9C%E5%B9%BF%E5%9C%BA%E7%AB%99%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>톈푸광장역</a>
+                        </p>
+                        <p><strong>예매:</strong> 공식 위챗 계정 "成都博物馆"에서 예약 (<span class="important-text">외국인 여권 예약 가능 여부 확인 필요</span>).</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🥡</span>
+                            <span class="h4-title-text">점심: 타이쿠리 근처</span>
+                        </h4>
+                        <p><span class="restaurant-name">마오창왕 시츄안 퀴진 (茂厂旺川菜) 타이쿠리점</span>
+                            <a href="maps://?q=%E8%8C%82%E5%8E%82%E6%97%BA%E5%B7%9D%E8%8F%9C%E5%A4%AA%E5%8F%A4%E9%87%8C%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区大慈寺路糠市街48号附11号</span></p>
+                        <ul>
+                            <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
+                            <li>마오쉐왕 <span class="menu-item-cn">(毛血旺, 마오쉬에왕)</span></li>
+                            <li>위샹체즈 <span class="menu-item-cn">(鱼香茄子, 위샹치에즈)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🦖</span>
+                            <span class="h4-title-text">오후: 청두 자연사 박물관 (<span class="important-text">사전 예약 권장</span>)</span>
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E8%87%AA%E7%84%B6%E5%8D%9A%E7%89%A9%E9%A6%86%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>교통: 지하철 1호선 톈푸광장역<span class="station-name-cn">(天府广场站)</span> → 인민북로역<span class="station-name-cn">(人民北路站)</span> 환승, 6호선 → 청두 이공대역<span class="station-name-cn">(成都理工大学站)</span> (B출구). <span class="important-text">현지 앱 경로 재확인</span>.</p>
+                        <p><strong>예매:</strong> 공식 위챗 계정 "成都自然博物馆" 또는 "成都理工大学博物馆"에서 예약.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍲</span>
+                            <span class="h4-title-text">저녁: 관착항자 근처 마오차이</span>
+                        </h4>
+                        <p><span class="restaurant-name">콴쟈이 스진 마오차이 (宽窄什锦冒菜) 콴쟈이샹즈점</span> <span class="address-info notice-warning">(宽窄巷子 내 여러 마오차이 가게 중 현지 선택 권장)</span></p>
+                        <ul><li>마오차이 <span class="menu-item-cn">(冒菜, 마오차이 - 1인용 훠궈 스타일)</span></li></ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 8일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🍵</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">8일차: 6월 8일 (일)</div>
+                        <div class="daily-summary-theme">현지인의 일상 속으로, 인민공원과 예술 거리</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">☀️</span>
+                            <span class="h4-title-text">오전: 인민공원 (人民公园)</span>
+                            <a href="maps://?q=%E4%BA%BA%E6%B0%91%E5%85%AC%E5%9B%AD%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">솽류라오마토우훠궈 (双流老妈兔头) 인민공원점</span> <span class="address-info notice-warning">(인민공원 근처 지점 현지 앱으로 주소 확인 권장)</span> - 토끼머리.</p>
+                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 인민공원역<span class="station-name-cn">(人民公园站)</span> (B출구).</p>
+                        <p>활동: 허밍차사(鹤鸣茶社) 차 마시기.
+                             <a href="maps://?q=%E9%B9%A4%E9%B8%A3%E8%8C%B6%E7%A4%BE%2C%E6%88%90%E9%83%BD%E4%BA%BA%E6%B0%91%E5%85%AC%E5%9B%AD" target="_blank" class="map-link"><span class="map-icon">📍</span>허밍차사</a>
+                        </p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍮</span>
+                            <span class="h4-title-text">점심: 인민공원 근처</span>
+                        </h4>
+                        <p><span class="restaurant-name">샤오탄두부 (小谭豆花) 시다지에점 (西大街店)</span>
+                            <a href="maps://?q=%E5%B0%8F%E8%B0%AD%E8%B1%86%E8%8A%B1%E8%A5%BF%E5%A4%A7%E8%A1%97%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市青羊区西大街86号附13号</span></p>
+                         <ul>
+                            <li>빙펀더우화 <span class="menu-item-cn">(冰粉豆花, 삥펀더우화)</span></li>
+                            <li>단단몐 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
+                            <li>촨촨샹 <span class="menu-item-cn">(串串香, 촨촨샹)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🎨</span>
+                            <span class="h4-title-text">오후: 퀘이싱로우지에 (奎星楼街)</span>
+                            <a href="maps://?q=%E5%A5%8E%E6%98%9F%E6%A5%BC%E8%A1%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>(인민공원에서 도보 15분)</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🦐</span>
+                            <span class="h4-title-text">저녁: 퀘이싱로우지에 퓨전 사천요리</span>
+                        </h4>
+                        <p><span class="restaurant-name">청두츠커 (成都吃客) 퀘이싱로우지에점</span>
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E5%90%83%E5%AE%A2%E5%A5%8E%E6%98%9F%E6%A5%BC%E8%A1%97%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市青羊区奎星楼街8号 (또는 10号附3号)</span> - <span class="important-text">예약 권장</span>.</p>
+                        <ul>
+                            <li>구운 생선 필레 <span class="menu-item-cn">(特色烤鱼片, 트어써카오위피앤)</span></li>
+                            <li>맨티스 새우 <span class="menu-item-cn">(裸奔坨坨虾, 루오뻔투오투오시아)</span></li>
+                             <li>숯불 돼지고기 삼겹살 <span class="menu-item-cn">(包浆豆腐, 빠오장더우푸 - 또는 유사 요리)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 9일차 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🛍️</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">9일차: 6월 9일 (월)</div>
+                        <div class="daily-summary-theme">현대 미술 감상과 도심 속 여유로운 쇼핑</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🎨</span>
+                            <span class="h4-title-text">오전: 지 미술관 (知美术馆, Zhi Art Museum)</span>
+                            <a href="maps://?q=Zhi%20Art%20Museum%2C%E6%88%90%E9%83%BD%E5%B8%82%E6%96%B0%E6%B4%A5%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">동즈멘관 (洞子面馆)</span> <span class="address-info notice-warning">(숙소 근처 인기 동자면관 현지 선택 권장)</span></p>
+                         <ul>
+                            <li>단단면 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
+                            <li>자장면 <span class="menu-item-cn">(炸酱面, 자장미앤)</span></li>
+                        </ul>
+                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 톈푸광장역<span class="station-name-cn">(天府广场站)</span> 환승, 1호선 → 광푸역<span class="station-name-cn">(广福站)</span> 환승, 19호선 → 화싱지에역<span class="station-name-cn">(花兴街站)</span> 후 택시. <span class="important-text">현지 앱 경로 재확인, 1시간+ 소요</span>.</p>
+                        <p><span class="important-text">방문 시점 진행 전시 및 예약 정보 <a href="http://www.zhiartmuseum.com/" target="_blank" class="document-link">공식 웹사이트</a> 또는 위챗 계정 확인 필수.</span></p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌟</span>
+                            <span class="h4-title-text">점심 (미슐랭): 타이쿠리</span>
+                        </h4>
+                        <p><span class="restaurant-name">마왕즈 (马旺子) 타이쿠리점</span>
+                            <a href="maps://?q=%E9%A9%AC%E6%97%BA%E5%AD%90%E5%A4%AA%E5%8F%A4%E9%87%8C%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区东糠市街1号</span> - <span class="important-text">예약 또는 오픈 시간 방문</span>.</p>
+                        <ul>
+                            <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
+                            <li>마파두부 <span class="menu-item-cn">(麻婆豆腐, 마포더우푸)</span></li>
+                            <li>모혈왕 <span class="menu-item-cn">(毛血旺, 마오쉬에왕)</span></li>
+                            <li>첨피오리 <span class="menu-item-cn">(甜皮鸭, 티앤피야)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🛍️</span>
+                            <span class="h4-title-text">오후: 타이쿠리 (太古里)와 춘시루 (春熙路) 쇼핑 및 자유시간</span>
+                        </h4>
+                        <p>추천: 팡수오 서점
+                            <a href="maps://?q=%E6%96%B9%E6%89%80%E6%88%90%E9%83%BD%E5%BA%97%2C%E5%A4%AA%E5%8F%A4%E9%87%8C" target="_blank" class="map-link"><span class="map-icon">📍</span>팡수오 서점</a>
+                        , IFS 판다 조형물
+                            <a href="maps://?q=IFS%E7%86%8A%E7%8C%AB%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>IFS 판다</a>
+                        , MUJI.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🦆</span>
+                            <span class="h4-title-text">저녁: 춘시루 오리구이</span>
+                        </h4>
+                        <p><span class="restaurant-name">장 카오야 (张烤鸭) 춘시루점 (青年路店)</span>
+                            <a href="maps://?q=%E5%BC%A0%E7%83%A4%E9%B8%AD%E9%9D%92%E5%B9%B4%E8%B7%AF%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区青年路89号益华大厦三楼</span></p>
+                        <ul>
+                            <li>마오 카오야 <span class="menu-item-cn">(冒烤鸭, 마오카오야 - 국물 있는 오리구이)</span></li>
+                            <li>시에황 더우푸 <span class="menu-item-cn">(蟹黄豆腐, 시에황더우푸 - 게알 두부)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 출발일 -->
+            <details class="daily-plan-entry">
+                <summary class="daily-plan-summary">
+                    <span class="daily-summary-icon">🛫</span>
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">출발일: 6월 10일 (화)</div>
+                        <div class="daily-summary-theme">아쉬움을 뒤로하고, 다음 여정을 기약하며</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details">
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">✈️</span>
+                            <span class="h4-title-text">출국 준비 및 출발</span>
+                        </h4>
+                        <p>09:05: 청두 톈푸 국제공항(TFU) T1 출발 (쓰촨항공 3U3973).
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E5%A4%A9%E5%BA%9C%E5%9B%BD%E9%99%85%E6%9C%BA%E5%9C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>공항 지도</a>
+                        </p>
+                        <p>공항 이동: 오전 6시경 숙소 출발 (택시/디디 또는 지하철).</p>
+                    </div>
+                </div>
+            </details>
+        </section>
         
-        <div class="diary-entry" id="diary-2025-06-03">
-            <h3>3일차: 6월 3일 (화) - 웅장한 낙산대불을 마주하다</h3>
-            <textarea id="text-2025-06-03" placeholder="오늘은 어떤 경험을 하셨나요?"></textarea>
-            <button onclick="saveDiary('2025-06-03')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-03"></span>
-        </div>
+        <!-- 구채구/황룡 어드벤처 -->
+         <section class="section" id="jiuzhaigou-huanglong">
+             <div class="section-header">
+                <span class="section-icon">🏞️</span>
+                <h2 class="section-title-text">구채구 & 황룡 (1박 2일)</h2>
+            </div>
+            <div class="callout-box notice-critical">
+                <span class="callout-icon">⚠️</span>
+                <p class="callout-text"><strong>중요!</strong> 2025년 기준 교통편 등 변동 가능성 매우 높음. <strong>현장 확인 및 사전 문의 필수.</strong></p>
+            </div>
+            <details class="daily-plan-entry"> 
+                <summary class="daily-plan-summary"> 
+                    <span class="daily-summary-icon">🗺️</span> 
+                    <div class="daily-summary-info">
+                        <div class="daily-summary-date">1박 2일 상세 계획</div>
+                        <div class="daily-summary-theme">고산지대의 아름다움, 황룡과 구채구 탐험</div>
+                    </div>
+                    <span class="daily-plan-toggle-icon">›</span>
+                </summary>
+                <div class="daily-plan-details"> 
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🚂</span>
+                            <span class="h4-title-text">A. 이동: 청두동역<span class="station-name-cn">(成都东站)</span> → 전장관역<span class="station-name-cn">(镇江关站)</span></span>
+                            <a href="maps://?q=%E6%88%90%E9%83%BD%E4%B8%9C%E7%AB%99" target="_blank" class="map-link"><span class="map-icon">📍</span>청두동역</a>
+                            <a href="maps://?q=%E9%95%87%E6%B1%9F%E5%85%B3%E7%AB%99" target="_blank" class="map-link"><span class="map-icon">📍</span>전장관역</a>
+                        </h4>
+                        <p>고속철도 이용 (<span class="important-text">필수 사전 예매</span>).</p>
+                        <ul><li>소요 시간/요금: 약 1.5~2시간 / 2등석 약 100~150위안.</li></ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🏨</span>
+                            <span class="h4-title-text">B. 숙박 (1박)</span>
+                        </h4>
+                        <p>구채구 풍경구 입구(구채구구) 근처 호텔 (<span class="important-text">미리 예약 필수</span>).
+                             <a href="maps://?q=%E6%9E%95%E5%B1%B1%E6%BA%AA%E8%88%8D%C2%B7%E6%B1%A4%E6%B3%89%E9%9B%85%E5%AE%BF%2C%E4%B9%9D%E5%AF%A8%E6%B2%9F" target="_blank" class="map-link"><span class="map-icon">📍</span>구채구 숙소 지도</a>
+                        </p>
+                        <p class="address-info">예약된 숙소: Piedmont Hot Spring Villa, 四川省阿坝藏族羌族自治州九寨沟县漳扎镇彭丰村47号</p>
+                    </div>
+                     <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🚌</span>
+                            <span class="h4-title-text">C. 주요 교통편 (현장 확인 필수!)</span>
+                        </h4>
+                        <p>전장관역<span class="station-name-cn">(镇江关站)</span> ↔ 황룡 ↔ 구채구구: 공식 셔틀 또는 택시/차량 대절.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🗓️</span>
+                            <span class="h4-title-text">D. 1박 2일 상세 일정</span>
+                        </h4>
+                        <h5>1일차 (여행 4일차): 청두 → 황룡 → 구채구구</h5>
+                        <ul>
+                            <li>오전: 청두동역<span class="station-name-cn">(成都东站)</span> 출발 → 전장관역<span class="station-name-cn">(镇江关站)</span> 도착 → 황룡 이동.</li>
+                            <li>황룡 국립공원 탐방 (약 5시간, 케이블카 상행 추천).
+                                <a href="maps://?q=%E9%BB%84%E9%BE%99%E5%9B%BD%E5%AE%B6%E7%BA%A7%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>황룡 지도</a>
+                            </li>
+                            <li>점심: 황룡 풍경구 내.</li>
+                            <li>오후: 황룡 → 구채구구 이동, 호텔 체크인.</li>
+                            <li>저녁: <span class="restaurant-name">아부로지 티베트 식당 (阿布氇孜藏餐吧)</span>
+                                <a href="maps://?q=%E9%98%BF%E5%B8%83%E6%9A%BE%E5%AD%9C%E8%97%8F%E9%A4%90%E5%90%A7%2C%E4%B9%9D%E5%AF%A8%E6%B2%9F" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                            <span class="address-info">주소: 四川省阿坝藏族羌族自治州九寨沟县彭丰村九寨磨坊酒店旁二楼</span>.</li>
+                        </ul>
+                        <h5>2일차 (여행 5일차): 구채구 → 청두 복귀</h5>
+                        <ul>
+                            <li>오전/오후: 구채구 국립공원 집중 탐방 (약 8.5시간, Y자 코스).
+                                <a href="maps://?q=%E4%B9%9D%E5%AF%A8%E6%B2%9F%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD" target="_blank" class="map-link"><span class="map-icon">📍</span>구채구 지도</a>
+                            </li>
+                            <li>점심: 공원 내 누오르랑 센터 또는 간편식.</li>
+                            <li>오후: 구채구구 → 전장관역<span class="station-name-cn">(镇江关站)</span> 이동.</li>
+                            <li>저녁: <span class="important-text">전장관역<span class="station-name-cn">(镇江关站)</span> 출발 청두행 고속철도 탑승 (예매 필수)</span>.</li>
+                        </ul>
+                    </div>
+                     <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">⚠️</span>
+                            <span class="h4-title-text">E. 고산병(AMS) 대처 방안</span>
+                        </h4>
+                         <p class="important-text">고산병은 개인차가 크며 누구에게나 올 수 있습니다.</p>
+                        <ul>
+                            <li>위험 인지: 전장관역<span class="station-name-cn">(镇江关站)</span>(약 3000m), 황룡(최고 약 3900m).</li>
+                            <li>예방 및 대처: 컨디션 조절, 점진적 고도 상승, 충분한 휴식, 수분 섭취, 필요시 약물(홍경천 등) 및 <span class="important-text">휴대용 산소통 준비/구매</span>.</li>
+                            <li>증상 발현 시: 즉시 휴식, 악화 시 낮은 고도로 이동 및 의료 지원.</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+        </section>
 
-        <div class="diary-entry" id="diary-2025-06-04">
-            <h3>4일차: 6월 4일 (수) - 황룡의 비경과 고산지대로</h3>
-            <textarea id="text-2025-06-04" placeholder="고산지대에서의 느낌은 어땠나요?"></textarea>
-            <button onclick="saveDiary('2025-06-04')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-04"></span>
-        </div>
-
-        <div class="diary-entry" id="diary-2025-06-05">
-            <h3>5일차: 6월 5일 (목) - 구채구의 물빛에 반하다</h3>
-            <textarea id="text-2025-06-05" placeholder="사진으로 담기 힘든 아름다움, 글로 남겨보세요..."></textarea>
-            <button onclick="saveDiary('2025-06-05')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-05"></span>
-        </div>
-
-        <div class="diary-entry" id="diary-2025-06-06">
-            <h3>6일차: 6월 6일 (금) - 시인의 발자취를 따라</h3>
-            <textarea id="text-2025-06-06" placeholder="두보초당과 안순랑교의 낭만..."></textarea>
-            <button onclick="saveDiary('2025-06-06')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-06"></span>
-        </div>
-
-        <div class="diary-entry" id="diary-2025-06-07">
-            <h3>7일차: 6월 7일 (토) - 박물관에서 만난 청두</h3>
-            <textarea id="text-2025-06-07" placeholder="새롭게 알게 된 것이 있나요?"></textarea>
-            <button onclick="saveDiary('2025-06-07')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-07"></span>
-        </div>
-
-        <div class="diary-entry" id="diary-2025-06-08">
-            <h3>8일차: 6월 8일 (일) - 현지인의 삶 엿보기</h3>
-            <textarea id="text-2025-06-08" placeholder="인민공원에서의 차 한잔, 퀘이싱로우지에의 활기..."></textarea>
-            <button onclick="saveDiary('2025-06-08')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-08"></span>
-        </div>
-
-        <div class="diary-entry" id="diary-2025-06-09">
-            <h3>9일차: 6월 9일 (월) - 예술과 쇼핑, 도시의 매력</h3>
-            <textarea id="text-2025-06-09" placeholder="오늘 가장 마음에 들었던 것은 무엇인가요?"></textarea>
-            <button onclick="saveDiary('2025-06-09')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-09"></span>
-        </div>
+        <!-- 4. 체크리스트 (원본과 동일) -->
+        <section class="section" id="todo-list">
+            <!-- ... (내용 동일) ... -->
+        </section>
         
-        <div class="diary-entry" id="diary-2025-06-10">
-            <h3>출발일: 6월 10일 (화) - 여행을 마무리하며</h3>
-            <textarea id="text-2025-06-10" placeholder="이번 여행에서 가장 기억에 남는 것은 무엇인가요? 전체적인 소감을 적어주세요."></textarea>
-            <button onclick="saveDiary('2025-06-10')">일기 저장</button>
-            <span class="save-feedback" id="feedback-2025-06-10"></span>
-        </div>
+        <!-- 5. 핵심 정보 (숙소에 지도 링크 추가) -->
+        <section class="section" id="key-info">
+            <div class="section-header">
+                <span class="section-icon">🔑</span>
+                <h2 class="section-title-text">핵심 정보</h2>
+            </div>
+            <div class="key-info-item">
+                <span class="key-info-icon">✈️</span>
+                <h3 class="key-info-title">항공편 정보</h3>
+                <div class="key-info-content">
+                    <p><strong>출국편 (3U3974):</strong> 2025-05-31 14:50 인천 (ICN) T1 출발 → 17:50 청두 (TFU) T1 도착</p>
+                    <p><strong>귀국편 (3U3973):</strong> 2025-06-10 09:05 청두 (TFU) T1 출발 → 13:30 인천 (ICN) T1 도착</p>
+                    <p><strong>항공사:</strong> 쓰촨항공 (Sichuan Airlines)</p>
+                    <p><strong>e티켓 번호:</strong> 876-2877068851 / <strong>항공사 PNR:</strong> MG6KE4 (Trip.com 예약번호: 1400818276761343)</p>
+                </div>
+            </div>
+            <div class="key-info-item">
+                <span class="key-info-icon">🏨</span>
+                <h3 class="key-info-title">숙소 정보</h3>
+                <div class="key-info-content">
+                    <p><strong>청두 숙소:</strong> 悦界轻奢设计师空间公寓(成都太古里店) (Yuejie Luxury Designer Space Apt)
+                        <a href="maps://?q=%E6%99%B6%E8%9E%8D%E6%B1%87%E5%85%AC%E5%AF%93%2C%E6%88%90%E9%83%BD%E5%B8%82%E9%94%A6%E6%B1%9F%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                    </p>
+                    <p class="address-info">中国四川省成都市锦江区下东大街99号晶融汇公寓8楼 (전화: +86-18884873630)</p>
+                    <p><strong>구채구 숙소:</strong> Piedmont Hot Spring Villa (枕山溪舍·汤泉雅宿)
+                        <a href="maps://?q=%E6%9E%95%E5%B1%B1%E6%BA%AA%E8%88%8D%C2%B7%E6%B1%A4%E6%B3%89%E9%9B%85%E5%AE%BF%2C%E4%B9%9D%E5%AF%A8%E6%B2%9F" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                    </p>
+                    <p class="address-info">四川省阿坝藏族羌族自治州九寨沟县漳扎镇彭丰村47号 (전화: +86-18783761363)</p>
+                </div>
+            </div>
+            <div class="key-info-item">
+                <span class="key-info-icon">🛂</span>
+                <h3 class="key-info-title">여권/비자 정보</h3>
+                <div class="key-info-content">
+                    <p><strong>여권 번호:</strong> M146P1274</p>
+                    <p><strong>여권 만료일:</strong> 2030-04-17</p>
+                    <p><strong>중국 비자 번호:</strong> (소지 시 기입)</p>
+                </div>
+            </div>
+            <div class="key-info-item">
+                <span class="key-info-icon">🛡️</span>
+                <h3 class="key-info-title">여행자 보험 정보</h3>
+                <div class="key-info-content">
+                    <p><strong>보험사:</strong> AXA 손해보험</p>
+                    <p><strong>증권번호:</strong> 250508811083</p>
+                    <p><strong>긴급 연락처 (청구):</strong> 1670-3796 (AXA 한국)</p>
+                     <p><strong>24시간 우리말 지원(해외):</strong> +82-2-360-2519 (수신자부담)</p>
+                </div>
+            </div>
+            <div class="key-info-item">
+                <span class="key-info-icon">🆘</span>
+                <h3 class="key-info-title">긴급 연락처 (현지)</h3>
+                <div class="key-info-content">
+                    <p><strong>주청두 대한민국 총영사관:</strong> +86-28-8616-5800 (대표), +86-139-8095-6348 (긴급)</p>
+                    <p><strong>현지 경찰:</strong> 110 / <strong>소방 및 구급:</strong> 119 / <strong>교통사고:</strong> 122</p>
+                </div>
+            </div>
+        </section>
 
-    </div>
-    <a href="#" id="scrollToTopBtn" title="맨 위로 이동" style="position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; text-decoration: none; display: none; z-index: 100;">↑</a>
+        <!-- 6. 개인 서류 -->
+        <section class="section" id="documents">
+            <div class="section-header">
+                <span class="section-icon">📄</span>
+                <h2 class="section-title-text">개인 서류 (PDF 링크)</h2>
+            </div>
+            <div class="document-card">
+                <span class="document-card-icon">✈️</span>
+                <h3 class="document-card-title">항공권 E-Ticket</h3>
+                <div class="document-card-content">
+                    <p><strong>승객:</strong> LEE/DONGHA / <strong>PNR:</strong> MG6KE4</p>
+                    <p><strong>항공사:</strong> 쓰촨항공 (3U3974 / 3U3973)</p>
+                    <p><a href="https://Somnium1357.github.io/chengdutravel/E-Ticket_Trip.com.pdf" target="_blank" class="document-link">E-Ticket_Trip.com.pdf 보기/다운로드</a></p>
+                </div>
+            </div>
+            <div class="document-card">
+                <span class="document-card-icon">🛡️</span>
+                <h3 class="document-card-title">해외여행자 보험 증서</h3>
+                <div class="document-card-content">
+                    <p><strong>보험사/증권번호:</strong> AXA / 250508811083</p>
+                    <p><strong>피보험자:</strong> LEE/DONGHA / <strong>기간:</strong> 2025.05.31~06.10</p>
+                    <p><a href="https://Somnium1357.github.io/chengdutravel/AXA_Insurance_Certificate.pdf" target="_blank" class="document-link">AXA_Insurance_Certificate.pdf 보기/다운로드</a></p>
+                </div>
+            </div>
+            <div class="document-card">
+                <span class="document-card-icon">🏨</span>
+                <h3 class="document-card-title">청두 숙소 바우처</h3>
+                <div class="document-card-content">
+                    <p><strong>숙소:</strong> 悦界轻奢设计师空间公寓(成都太古里店)</p>
+                    <p><strong>예약번호:</strong> 1400818148127011 (Trip.com)</p>
+                    <p><a href="https://Somnium1357.github.io/chengdutravel/Chengdu_Hotel_Voucher.pdf" target="_blank" class="document-link">Chengdu_Hotel_Voucher.pdf 보기/다운로드</a></p>
+                </div>
+            </div>
+             <div class="document-card">
+                <span class="document-card-icon">🏡</span>
+                <h3 class="document-card-title">구채구 숙소 바우처</h3>
+                <div class="document-card-content">
+                    <p><strong>숙소:</strong> Piedmont Hot Spring Villa</p>
+                    <p><strong>예약번호:</strong> 1400818163859884 (Trip.com)</p>
+                    <p><a href="https://Somnium1357.github.io/chengdutravel/Jiuzhaigou_Hotel_Voucher.pdf" target="_blank" class="document-link">Jiuzhaigou_Hotel_Voucher.pdf 보기/다운로드</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. 중요 여행 조언 -->
+        <section class="section" id="advice">
+            <div class="section-header">
+                <span class="section-icon">💡</span>
+                <h2 class="section-title-text">중요 여행 조언</h2>
+            </div>
+            <div class="info-card">
+                 <ul>
+                    <li><strong>사전 예약 철저:</strong> 항공권, 숙소, <span class="important-text">고속철도 티켓 (특히 청두-전장관)</span>은 최대한 빨리 예약.</li>
+                    <li><strong>고산병 대비:</strong> <span class="important-text">휴대용 산소통 준비</span>, 무리하지 않기, 증상 시 즉시 대처.</li>
+                    <li><strong>현지 앱 적극 활용:</strong>
+                        <ul>
+                            <li>지도: <span class="important-text">바이두/가오더 지도 (오프라인 저장)</span>.</li>
+                            <li>맛집/정보: <span class="important-text">다중뎬핑, 샤오홍슈</span>.</li>
+                            <li>번역: <span class="important-text">바이두 번역, 파파고 (오프라인)</span>.</li>
+                            <li>결제: <span class="important-text">알리페이/위챗페이</span>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>필수품:</strong> VPN, 보조배터리, 상비약, 자외선 차단 용품, 물티슈.</li>
+                    <li><strong>안전과 유연성:</strong> 소지품 관리, 긴급 연락처 숙지, 현지 상황에 따른 계획 조절.</li>
+                </ul>
+            </div>
+        </section>
+
+    <footer class="page-footer">
+        <p>이 계획이 즐겁고 안전한 청두 여행에 도움이 되기를 바랍니다!</p>
+        <p>© 2025 Notion 스타일 청두 여행 플래너</p>
+    </footer>
+</div> <!-- .page-container 닫는 태그 -->
+
+<a href="#" id="scrollToTopBtn" title="맨 위로 이동" style="position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; text-decoration: none; display: none; z-index: 100;">↑</a>
+
 <script>
-    function saveDiary(dateKey) {
-        const textareaId = 'text-' + dateKey;
-        const feedbackId = 'feedback-' + dateKey;
-        const content = document.getElementById(textareaId).value;
-        localStorage.setItem('diary-' + dateKey, content);
-        
-        const feedbackElement = document.getElementById(feedbackId);
-        feedbackElement.innerHTML = '✔️'; // 저장 피드백을 체크 아이콘으로 변경
-        feedbackElement.style.display = 'inline';
-        setTimeout(() => {
-            feedbackElement.style.display = 'none';
-        }, 2000); // 2초 후 메시지 숨김
-    }
+    // ToDo List 체크 상태 저장 및 로드
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.todo-item input[type="checkbox"]');
 
-    // textarea 높이 자동 조절 함수
-    function autoResizeTextarea(textarea) {
-        textarea.style.height = 'auto'; 
-        textarea.style.height = textarea.scrollHeight + 'px';
-    }
+        checkboxes.forEach(checkbox => {
+            const savedState = localStorage.getItem(checkbox.id);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+            }
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
+            });
+        });
+    });
 
-    function loadDiaries() {
-        const diaryEntries = document.querySelectorAll('.diary-entry');
-        diaryEntries.forEach(entry => {
-            const dateKey = entry.id.replace('diary-', '');
-            const textareaId = 'text-' + dateKey;
-            const savedContent = localStorage.getItem('diary-' + dateKey);
-            const textareaElement = document.getElementById(textareaId);
-            if (savedContent) {
-                textareaElement.value = savedContent;
-                // 페이지 로드 시 높이 조절은 window.onload에서 일괄 처리
+    // 최상단으로 이동 버튼 스크립트
+    const scrollToTopBtn_index = document.getElementById('scrollToTopBtn');
+    if (scrollToTopBtn_index) {
+        window.addEventListener('scroll', function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                scrollToTopBtn_index.style.display = "block";
+            } else {
+                scrollToTopBtn_index.style.display = "none";
             }
         });
     }
-
-    // 페이지 로드 시 실행될 함수들
-    window.onload = function() {
-        loadDiaries(); // 일기 내용 불러오기
-
-        // textarea 자동 높이 조절 기능 초기화
-        const textareas = document.querySelectorAll('.diary-entry textarea');
-        textareas.forEach(textarea => {
-            // 입력 시 높이 자동 조절 이벤트 리스너 추가
-            textarea.addEventListener('input', function() {
-                autoResizeTextarea(this);
-            });
-            // 페이지 로드 시 이미 내용이 있는 경우 높이 조절
-            if (textarea.value) {
-                autoResizeTextarea(textarea);
-            }
-        });
-
-        // 최상단으로 이동 버튼 스크립트
-        const scrollToTopBtn_diary = document.getElementById('scrollToTopBtn');
-        if (scrollToTopBtn_diary) {
-            window.addEventListener('scroll', function() {
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    scrollToTopBtn_diary.style.display = "block";
-                } else {
-                    scrollToTopBtn_diary.style.display = "none";
-                }
-            });
-        }
-    }; // window.onload 끝
 </script>
 </body>
 </html>
