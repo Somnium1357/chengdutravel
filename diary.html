@@ -17,6 +17,7 @@
             --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             --border-radius: 6px;
         }
+        html { scroll-behavior: smooth; } /* 부드러운 스크롤 효과 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: var(--font-sans);
@@ -183,7 +184,7 @@
         </div>
 
     </div>
-
+    <a href="#" id="scrollToTopBtn" title="맨 위로 이동" style="position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; text-decoration: none; display: none; z-index: 100;">↑</a>
     <script>
         function saveDiary(dateKey) {
             const textareaId = 'text-' + dateKey;
@@ -213,6 +214,18 @@
 
         // 페이지 로드 시 저장된 일기 불러오기
         window.onload = loadDiaries;
+
+                // 최상단으로 이동 버튼 스크립트
+        const scrollToTopBtn_diary = document.getElementById('scrollToTopBtn');
+        if (scrollToTopBtn_diary) {
+            window.addEventListener('scroll', function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    scrollToTopBtn_diary.style.display = "block";
+                } else {
+                    scrollToTopBtn_diary.style.display = "none";
+                }
+            });
+        }
     </script>
 </body>
 </html>
