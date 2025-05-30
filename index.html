@@ -339,6 +339,9 @@
         .callout-text { font-size: 0.9em; color: var(--text-secondary); }
         .callout-text strong { color: var(--text-primary); font-weight: 500; }
         .notice-warning { color: #FACC15; } 
+        .notice-info { background-color: rgba(74, 144, 226, 0.1); border-left: 3px solid var(--accent-color); padding: 10px 15px;} /* 추가됨 */
+        .notice-critical { background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid var(--critical-accent-color); padding: 10px 15px;} /* 추가됨 */
+
 
     </style>
 </head>
@@ -410,9 +413,9 @@
                         <tr><td>⛰️</td><td>4일</td><td>6/4</td><td>(수)</td><td><span class="schedule-type-badge" style="background-color: #059669;">자연/이동</span></td><td>황룡 탐방, 구채구 이동</td><td>구채구</td></tr>
                         <tr><td>🏞️</td><td>5일</td><td>6/5</td><td>(목)</td><td><span class="schedule-type-badge" style="background-color: #059669;">자연/이동</span></td><td>구채구 탐방, 청두 복귀</td><td>청두</td></tr>
                         <tr><td>✍️</td><td>6일</td><td>6/6</td><td>(금)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>두보초당, 안순랑교</td><td>청두</td></tr>
-                        <tr><td>🖼️</td><td>7일</td><td>6/7</td><td>(토)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>청두 박물관, 자연사 박물관</td><td>청두</td></tr>
-                        <tr><td>🍵</td><td>8일</td><td>6/8</td><td>(일)</td><td><span class="schedule-type-badge" style="background-color: #4F46E5;">체험</span></td><td>인민공원, 퀘이싱로우지에</td><td>청두</td></tr>
-                        <tr><td>🛍️</td><td>9일</td><td>6/9</td><td>(월)</td><td><span class="schedule-type-badge" style="background-color: #DB2777;">쇼핑/예술</span></td><td>지 미술관, 타이쿠리 쇼핑</td><td>청두</td></tr>
+                        <tr><td>🖼️</td><td>7일</td><td>6/7</td><td>(토)</td><td><span class="schedule-type-badge" style="background-color: #D97706;">문화</span></td><td>청두 박물관, 동교기억</td><td>청두</td></tr>
+                        <tr><td>🎨</td><td>8일</td><td>6/8</td><td>(일)</td><td><span class="schedule-type-badge" style="background-color: #4F46E5;">문화/예술</span></td><td>U37, 퀘이싱로우지에</td><td>청두</td></tr>
+                        <tr><td>🏛️</td><td>9일</td><td>6/9</td><td>(월)</td><td><span class="schedule-type-badge" style="background-color: #DB2777;">건축/현대미술</span></td><td>서촌대원, 지 미술관</td><td>청두</td></tr>
                         <tr><td>🛫</td><td>출발</td><td>6/10</td><td>(화)</td><td><span class="schedule-type-badge" style="background-color: #555;">이동</span></td><td>청두 공항 출국</td><td>-</td></tr>
                     </tbody>
                 </table>
@@ -478,10 +481,7 @@
                             <span class="detail-icon">🌃</span>
                             <span class="h4-title-text">선택 활동</span>
                         </h4>
-                        <p>밤 10:00 이후: 타이쿠리/춘시루 야경 산책.
-                            <a href="maps://?q=%E5%A4%AA%E5%8F%A4%E9%87%8C%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>타이쿠리</a>
-                            <a href="maps://?q=%E6%98%A5%E7%86%99%E8%B7%AF%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>춘시루</a>
-                        </p>
+                        <p>밤 10:00 이후: 타이쿠리/춘시루 야경 산책. (숙소 근처이므로 부담 없이)</p>
                     </div>
                 </div>
             </details>
@@ -524,7 +524,6 @@
                         <ul>
                             <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
                             <li>마파두부 <span class="menu-item-cn">(麻婆豆腐, 마포더우푸)</span></li>
-                            <li>회과육 <span class="menu-item-cn">(回锅肉, 후이꾸어로우)</span></li>
                         </ul>
                     </div>
                     <div class="daily-detail-block">
@@ -537,6 +536,18 @@
                     </div>
                     <div class="daily-detail-block">
                         <h4>
+                            <span class="detail-icon">🍵</span>
+                            <span class="h4-title-text">오후 찻집: 타임즈 티 하우스</span>
+                            <a href="maps://?q=%E7%AA%84%E5%B7%B7%E5%AD%90%E6%97%B6%E5%85%89%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p><span class="restaurant-name">타임즈 티 하우스 (窄巷子时光)</span></p>
+                        <ul>
+                            <li>중국 전통차 (예: 몽정감로 蒙顶甘露)</li>
+                            <li>계절 특선 차</li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
                             <span class="detail-icon">🌶️</span>
                             <span class="h4-title-text">저녁: 마파두부 원조집</span>
                         </h4>
@@ -546,8 +557,6 @@
                         <ul>
                             <li>마파두부 <span class="menu-item-cn">(麻婆豆腐, 마포더우푸 - 돌솥 추천)</span></li>
                             <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
-                            <li>단단면 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
-                            <li>차나무버섯 오리찜 <span class="menu-item-cn">(茶树菇烧鸭, 차슈구샤오야)</span></li>
                         </ul>
                         <p>교통: 지하철 4호선 관착항자역<span class="station-name-cn">(宽窄巷子站)</span> → 뤄마스역<span class="station-name-cn">(骡马市站)</span> (G출구).</p>
                     </div>
@@ -577,8 +586,6 @@
                         <ul>
                             <li>담두화 <span class="menu-item-cn">(谭豆花, 탄더우화 - 두부 푸딩)</span></li>
                             <li>단단면 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
-                            <li>종수교 <span class="menu-item-cn">(钟水饺, 쫑쉐이자오 - 중국식 물만두)</span></li>
-                            <li>첨수면 <span class="menu-item-cn">(甜水面, 티앤쉐이미앤 - 달콤한 면)</span></li>
                         </ul>
                         <p>교통: 지하철 3호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 가오성차오역<span class="station-name-cn">(高升桥站)</span> (D/C출구).</p>
                     </div>
@@ -587,10 +594,9 @@
                             <span class="detail-icon">🍜</span>
                             <span class="h4-title-text">점심: 금리 고가 내 또는 근처</span>
                         </h4>
-                        <p><span class="restaurant-name">금리 고가 내 길거리 음식</span>: 장페이 니우로우 <span class="menu-item-cn">(张飞牛肉, 짱페이니우로우)</span>, 더우화 <span class="menu-item-cn">(豆花, 더우화)</span>, 각종 꼬치류.</p>
+                        <p><span class="restaurant-name">금리 고가 내 길거리 음식</span>: 장페이 니우로우 <span class="menu-item-cn">(张飞牛肉, 짱페이니우로우)</span>, 각종 꼬치류.</p>
                         <p>또는 <span class="restaurant-name">흠선려지 식부 (钦善斋食府) 무후사점</span>
-                            <a href="maps://?q=%E
-%A9%90%E5%96%84%E6%96%8B%E9%A3%9F%E5%BA%9C%E6%AD%A6%E4%BE%AF%E7%A5%A0%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                            <a href="maps://?q=%E9%A5%B2%E5%96%84%E6%96%8B%E9%A3%9F%E5%BA%9C%E6%AD%A6%E4%BE%AF%E7%A5%A0%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
                         <span class="address-info">주소: 四川省成都市武侯区武侯祠大街247号</span> - 약선요리.</p>
                     </div>
                     <div class="daily-detail-block">
@@ -600,6 +606,18 @@
                             <a href="maps://?q=%E9%94%A6%E9%87%8C%E5%8F%A4%E8%A1%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
                         </h4>
                         <p>(무후사에서 도보 5분)</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍵</span>
+                            <span class="h4-title-text">오후 찻집: 연화부저 차예</span>
+                            <a href="maps://?q=%E8%8E%B2%E8%8A%B1%E5%BA%9C%EE%82%B8%E8%8C%B6%E8%89%BA%20%E9%94%A6%E9%87%8C%2C%20%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p><span class="restaurant-name">연화부저 차예 (莲花府邸茶艺)</span></p>
+                        <ul>
+                            <li>사천 특산 차 (예: 죽엽청 竹叶青)</li>
+                            <li>다과 세트</li>
+                        </ul>
                     </div>
                     <div class="daily-detail-block">
                         <h4>
@@ -638,14 +656,13 @@
                         <ul>
                             <li>샤오롱바오 <span class="menu-item-cn">(小笼包, 샤오롱빠오)</span></li>
                             <li>로우바오 <span class="menu-item-cn">(肉包, 로우빠오 - 고기찐빵)</span></li>
-                            <li>더우장 <span class="menu-item-cn">(豆浆, 더우장 - 두유)</span></li>
                         </ul>
                         <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 청두동역<span class="station-name-cn">(成都东站)</span>.
                             <a href="maps://?q=%E6%88%90%E9%83%BD%E4%B8%9C%E7%AB%99" target="_blank" class="map-link"><span class="map-icon">📍</span>청두동역</a>
                         그 후 고속철도 청두동역<span class="station-name-cn">(成都东站)</span> → 낙산역<span class="station-name-cn">(乐山站)</span> (<span class="important-text">예매필수</span>).
                             <a href="maps://?q=%E4%B9%90%E5%B1%B1%E7%AB%99" target="_blank" class="map-link"><span class="map-icon">📍</span>낙산역</a>
                         낙산역에서 택시/버스 이용.</p>
-                        <p>관람 팁: 유람선 또는 도보 관람 선택.</p>
+                        <p>관람 팁: 유람선 또는 도보 관람 선택. (계단 회피 시 유람선 추천)</p>
                     </div>
                     <div class="daily-detail-block">
                         <h4>
@@ -657,7 +674,18 @@
                         <span class="address-info">주소: 四川省乐山市市中区王浩儿街36号</span></p>
                         <ul>
                             <li>차오자오 니우로우 <span class="menu-item-cn">(跷脚牛肉, 챠오지아오니우로우 - 소고기 특선 전골)</span></li>
-                            <li>혈왕 <span class="menu-item-cn">(血旺, 쉬에왕)</span></li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🥤</span>
+                            <span class="h4-title-text">오후 음료 (청두 복귀 후): 차옌위에써 춘시루점</span>
+                            <a href="maps://?q=%E8%8C%B6%E9%A2%9C%E6%82%A6%E8%89%B2%E6%98%A5%E7%86%99%E8%B7%AF%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p><span class="restaurant-name">차옌위에써 (茶颜悦色) 춘시루점</span></p>
+                        <ul>
+                            <li>요우란라떼 <span class="menu-item-cn">(幽兰拿铁)</span></li>
+                            <li>성성오이 <span class="menu-item-cn">(声声乌龙)</span></li>
                         </ul>
                     </div>
                     <div class="daily-detail-block">
@@ -667,7 +695,7 @@
                         </h4>
                         <p><span class="restaurant-name">희림문훠궈 (喜临门火锅) 춘시루점</span> <span class="address-info notice-warning">(주소 정보 확인 필요)</span></p>
                         <p>또는 <span class="restaurant-name">더좡 훠궈 (德庄火锅) 춘시루점</span> <span class="address-info notice-warning">(주소 정보 확인 필요)</span></p>
-                        <p>훠궈 추천 메뉴: 위안양궈 <span class="menu-item-cn">(鸳鸯锅, 위앤양꾸어)</span>, 천엽 <span class="menu-item-cn">(毛肚, 마오두)</span>, 오리 창자 <span class="menu-item-cn">(鸭肠, 야창)</span>.</p>
+                        <p>훠궈 추천 메뉴: 위안양궈 <span class="menu-item-cn">(鸳鸯锅, 위앤양꾸어)</span>, 천엽 <span class="menu-item-cn">(毛肚, 마오두)</span>.</p>
                     </div>
                 </div>
             </details>
@@ -739,7 +767,7 @@
                     <span class="daily-summary-icon">✍️</span>
                     <div class="daily-summary-info">
                         <div class="daily-summary-date">6일차: 6월 6일 (금)</div>
-                        <div class="daily-summary-theme">시성 두보의 숨결과 밤의 낭만이 흐르는 안순랑교</div>
+                        <div class="daily-summary-theme">시인의 발자취와 낭만적인 다리</div>
                     </div>
                     <span class="daily-plan-toggle-icon">›</span>
                 </summary>
@@ -750,7 +778,10 @@
                             <span class="h4-title-text">오전: 두보초당 (杜甫草堂)</span>
                              <a href="maps://?q=%E6%9D%9C%E7%94%AB%E8%8D%89%E5%A0%82%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
                         </h4>
-                        <p>아침: <span class="restaurant-name">용쉐이쟈오 춘시루점 (龙学街角春熙路店)</span> <span class="address-info notice-warning">(주소 특정 어려움, 현지에서 유사한 면/만두 맛집 선택 권장)</span></p>
+                        <p>아침: <span class="restaurant-name">위핀탕관 (渝品堂馆)</span> (두보초당 근처 현지 면 요리 전문점)
+                            <a href="maps://?q=%E6%B8%9D%E5%93%81%E5%A0%82%E9%A6%86%20%E6%9D%9C%E7%94%AB%E8%8D%89%E5%A0%82%2C%20%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市青羊区草堂路街道 (정확한 주소 현지 확인 필요)</span></p>
+                        <ul><li>각종 면 요리</li></ul>
                         <p>교통: 지하철 4호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 차오탕루 북역<span class="station-name-cn">(草堂北路站)</span> (B출구).</p>
                     </div>
                     <div class="daily-detail-block">
@@ -776,6 +807,18 @@
                     </div>
                     <div class="daily-detail-block">
                         <h4>
+                            <span class="detail-icon">🍵</span>
+                            <span class="h4-title-text">오후 티룸: The Temple Cafe</span>
+                            <a href="maps://?q=The%20Temple%20Cafe%20Chengdu" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p><span class="restaurant-name">The Temple Cafe (博舍酒店谧寻茶室)</span></p>
+                        <ul>
+                            <li>애프터눈 티 세트</li>
+                            <li>다양한 고급 차 (예: 실론, 다즐링)</li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
                             <span class="detail-icon">🍷</span>
                             <span class="h4-title-text">저녁: 안순랑교 야경과 함께</span>
                         </h4>
@@ -792,7 +835,7 @@
                     <span class="daily-summary-icon">🖼️</span>
                     <div class="daily-summary-info">
                         <div class="daily-summary-date">7일차: 6월 7일 (토)</div>
-                        <div class="daily-summary-theme">청두의 역사와 자연을 담은 박물관 순례</div>
+                        <div class="daily-summary-theme">청두의 역사와 창의적인 재탄생</div>
                     </div>
                     <span class="daily-plan-toggle-icon">›</span>
                 </summary>
@@ -823,25 +866,41 @@
                         <ul>
                             <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
                             <li>마오쉐왕 <span class="menu-item-cn">(毛血旺, 마오쉬에왕)</span></li>
-                            <li>위샹체즈 <span class="menu-item-cn">(鱼香茄子, 위샹치에즈)</span></li>
                         </ul>
                     </div>
                     <div class="daily-detail-block">
                         <h4>
-                            <span class="detail-icon">🦖</span>
-                            <span class="h4-title-text">오후: 청두 자연사 박물관 (<span class="important-text">사전 예약 권장</span>)</span>
-                            <a href="maps://?q=%E6%88%90%E9%83%BD%E8%87%AA%E7%84%B6%E5%8D%9A%E7%89%A9%E9%A6%86%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                            <span class="detail-icon">🏭</span>
+                            <span class="h4-title-text">오후: 동교기억 (东郊记忆, Eastern Suburb Memory)</span>
+                            <a href="maps://?q=Eastern%20Suburb%20Memory%2C%20Chengdu" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
                         </h4>
-                        <p>교통: 지하철 1호선 톈푸광장역<span class="station-name-cn">(天府广场站)</span> → 인민북로역<span class="station-name-cn">(人民北路站)</span> 환승, 6호선 → 청두 이공대역<span class="station-name-cn">(成都理工大学站)</span> (B출구). <span class="important-text">현지 앱 경로 재확인</span>.</p>
-                        <p><strong>예매:</strong> 공식 위챗 계정 "成都自然博物馆" 또는 "成都理工大学博物馆"에서 예약.</p>
+                        <p>교통: 청두 박물관에서 택시 이용 또는 지하철 7/8호선 환승하여 동교기억역<span class="station-name-cn">(东郊记忆站)</span> 하차. (현지 앱 경로 재확인)</p>
+                        <p>과거 공장 지대를 개조한 복합 문화 예술 단지인 동교기억을 탐방합니다. 다양한 미술 전시, 디자인샵, 편집샵, 공연 등을 둘러보세요.</p>
                     </div>
                     <div class="daily-detail-block">
                         <h4>
-                            <span class="detail-icon">🍲</span>
-                            <span class="h4-title-text">저녁: 관착항자 근처 마오차이</span>
+                            <span class="detail-icon">☕</span>
+                            <span class="h4-title-text">오후 카페: 완미도미공사</span>
+                            <a href="maps://?q=%E5%AE%8C%E7%BE%8E%E5%80%92%E9%9C%89%E5%85%AC%E5%8F%B8%20%E4%B8%9C%E9%83%8A%E8%AE%B0%E5%BF%86%2C%20%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
                         </h4>
-                        <p><span class="restaurant-name">콴쟈이 스진 마오차이 (宽窄什锦冒菜) 콴쟈이샹즈점</span> <span class="address-info notice-warning">(宽窄巷子 내 여러 마오차이 가게 중 현지 선택 권장)</span></p>
-                        <ul><li>마오차이 <span class="menu-item-cn">(冒菜, 마오차이 - 1인용 훠궈 스타일)</span></li></ul>
+                        <p><span class="restaurant-name">완미도미공사 (完美倒霉公司)</span></p>
+                        <ul>
+                            <li>스페셜티 커피 (예: 핸드드립 커피)</li>
+                            <li>독특한 이름의 창작 음료</li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍚</span>
+                            <span class="h4-title-text">저녁: 퓨전 사천요리</span>
+                        </h4>
+                        <p><span class="restaurant-name">차이먼화이얼 (柴门饭儿) 타이쿠리점</span>
+                             <a href="maps://?q=%E6%9F%B4%E9%97%A8%E9%A5%AD%E5%84%BF%20%E5%A4%AA%E5%8F%A4%E9%87%8C%2C%20%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区中纱帽街8号成都远洋太古里M层M070 (정확한 주소 현지 확인)</span></p>
+                        <ul>
+                            <li>퓨전 사천 요리</li>
+                            <li>다양한 현대 중식</li>
+                        </ul>
                     </div>
                 </div>
             </details>
@@ -849,47 +908,53 @@
             <!-- 8일차 -->
             <details class="daily-plan-entry">
                 <summary class="daily-plan-summary">
-                    <span class="daily-summary-icon">🍵</span>
+                    <span class="daily-summary-icon">🎨</span>
                     <div class="daily-summary-info">
                         <div class="daily-summary-date">8일차: 6월 8일 (일)</div>
-                        <div class="daily-summary-theme">현지인의 일상 속으로, 인민공원과 예술 거리</div>
+                        <div class="daily-summary-theme">예술적 영감과 미식의 거리</div>
                     </div>
                     <span class="daily-plan-toggle-icon">›</span>
                 </summary>
                 <div class="daily-plan-details">
                     <div class="daily-detail-block">
                         <h4>
-                            <span class="detail-icon">☀️</span>
-                            <span class="h4-title-text">오전: 인민공원 (人民公园)</span>
-                            <a href="maps://?q=%E4%BA%BA%E6%B0%91%E5%85%AC%E5%9B%AD%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
-                        </h4>
-                        <p>아침: <span class="restaurant-name">솽류라오마토우훠궈 (双流老妈兔头) 인민공원점</span> <span class="address-info notice-warning">(인민공원 근처 지점 현지 앱으로 주소 확인 권장)</span> - 토끼머리.</p>
-                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 인민공원역<span class="station-name-cn">(人民公园站)</span> (B출구).</p>
-                        <p>활동: 허밍차사(鹤鸣茶社) 차 마시기.
-                             <a href="maps://?q=%E9%B9%A4%E9%B8%A3%E8%8C%B6%E7%A4%BE%2C%E6%88%90%E9%83%BD%E4%BA%BA%E6%B0%91%E5%85%AC%E5%9B%AD" target="_blank" class="map-link"><span class="map-icon">📍</span>허밍차사</a>
-                        </p>
-                    </div>
-                    <div class="daily-detail-block">
-                        <h4>
-                            <span class="detail-icon">🍮</span>
-                            <span class="h4-title-text">점심: 인민공원 근처</span>
-                        </h4>
-                        <p><span class="restaurant-name">샤오탄두부 (小谭豆花) 시다지에점 (西大街店)</span>
-                            <a href="maps://?q=%E5%B0%8F%E8%B0%AD%E8%B1%86%E8%8A%B1%E8%A5%BF%E5%A4%A7%E8%A1%97%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
-                        <span class="address-info">주소: 四川省成都市青羊区西大街86号附13号</span></p>
-                         <ul>
-                            <li>빙펀더우화 <span class="menu-item-cn">(冰粉豆花, 삥펀더우화)</span></li>
-                            <li>단단몐 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
-                            <li>촨촨샹 <span class="menu-item-cn">(串串香, 촨촨샹)</span></li>
-                        </ul>
-                    </div>
-                    <div class="daily-detail-block">
-                        <h4>
                             <span class="detail-icon">🎨</span>
+                            <span class="h4-title-text">오전: U37 크리에이티브 웨어하우스</span>
+                            <a href="maps://?q=U37%20Creative%20Warehouse%2C%20Chengdu" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p>아침: <span class="restaurant-name">푸치페이피엔 (夫妻肺片) 총점</span> (숙소 근처 유명 사천요리 전문점)
+                            <a href="maps://?q=%E5%A4%AB%E5%A6%BB%E8%82%BA%E7%89%87%E6%80%BB%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: 四川省成都市锦江区总府路23号附2号 (또는 가까운 지점)</span></p>
+                        <ul><li>푸치페이피엔 <span class="menu-item-cn">(夫妻肺片)</span>, 기타 사천요리</li></ul>
+                        <p>U37 크리에이티브 웨어하우스로 이동 (택시 권장). 아기자기한 공방, 편집샵, 카페 등을 둘러보세요.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍜</span>
+                            <span class="h4-title-text">점심: U37 내 또는 근처 식당</span>
+                        </h4>
+                        <p>U37 크리에이티브 웨어하우스 내 캐주얼 레스토랑이나 카페에서 점심 식사를 하거나, 근처 현지 식당을 이용합니다.</p>
+                        <p>예: <span class="restaurant-name">U37 내 간단한 식사 또는 주변 면 요리집</span></p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🚶</span>
                             <span class="h4-title-text">오후: 퀘이싱로우지에 (奎星楼街)</span>
                             <a href="maps://?q=%E5%A5%8E%E6%98%9F%E6%A5%BC%E8%A1%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
                         </h4>
-                        <p>(인민공원에서 도보 15분)</p>
+                        <p>(U37에서 택시 또는 대중교통 이동)</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🍵</span>
+                            <span class="h4-title-text">오후 찻집: 미도 티 퀘이싱로우점</span>
+                            <a href="maps://?q=%E8%A7%85%E8%8D%BC%E5%A5%8E%E6%98%9F%E6%A5%BC%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p><span class="restaurant-name">미도 티 (觅荼) 퀘이싱로우점</span></p>
+                        <ul>
+                            <li>백차 (白茶)</li>
+                            <li>화차 (花茶)</li>
+                        </ul>
                     </div>
                     <div class="daily-detail-block">
                         <h4>
@@ -902,7 +967,6 @@
                         <ul>
                             <li>구운 생선 필레 <span class="menu-item-cn">(特色烤鱼片, 트어써카오위피앤)</span></li>
                             <li>맨티스 새우 <span class="menu-item-cn">(裸奔坨坨虾, 루오뻔투오투오시아)</span></li>
-                             <li>숯불 돼지고기 삼겹살 <span class="menu-item-cn">(包浆豆腐, 빠오장더우푸 - 또는 유사 요리)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -911,65 +975,66 @@
             <!-- 9일차 -->
             <details class="daily-plan-entry">
                 <summary class="daily-plan-summary">
-                    <span class="daily-summary-icon">🛍️</span>
+                    <span class="daily-summary-icon">🏛️</span>
                     <div class="daily-summary-info">
                         <div class="daily-summary-date">9일차: 6월 9일 (월)</div>
-                        <div class="daily-summary-theme">현대 미술 감상과 도심 속 여유로운 쇼핑</div>
+                        <div class="daily-summary-theme">건축미와 현대 예술의 조화</div>
                     </div>
                     <span class="daily-plan-toggle-icon">›</span>
                 </summary>
                 <div class="daily-plan-details">
                     <div class="daily-detail-block">
                         <h4>
-                            <span class="detail-icon">🎨</span>
-                            <span class="h4-title-text">오전: 지 미술관 (知美术馆, Zhi Art Museum)</span>
-                            <a href="maps://?q=Zhi%20Art%20Museum%2C%E6%88%90%E9%83%BD%E5%B8%82%E6%96%B0%E6%B4%A5%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                            <span class="detail-icon">🏛️</span>
+                            <span class="h4-title-text">오전: 서촌대원 (西村大院, West Village Basis Yard)</span>
+                            <a href="maps://?q=West%20Village%20Basis%20Yard%2C%20Chengdu" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
                         </h4>
-                        <p>아침: <span class="restaurant-name">동즈멘관 (洞子面馆)</span> <span class="address-info notice-warning">(숙소 근처 인기 동자면관 현지 선택 권장)</span></p>
-                         <ul>
-                            <li>단단면 <span class="menu-item-cn">(担担面, 단단미앤)</span></li>
-                            <li>자장면 <span class="menu-item-cn">(炸酱面, 자장미앤)</span></li>
-                        </ul>
-                        <p>교통: 지하철 2호선 춘시루역<span class="station-name-cn">(春熙路站)</span> → 톈푸광장역<span class="station-name-cn">(天府广场站)</span> 환승, 1호선 → 광푸역<span class="station-name-cn">(广福站)</span> 환승, 19호선 → 화싱지에역<span class="station-name-cn">(花兴街站)</span> 후 택시. <span class="important-text">현지 앱 경로 재확인, 1시간+ 소요</span>.</p>
-                        <p><span class="important-text">방문 시점 진행 전시 및 예약 정보 <a href="http://www.zhiartmuseum.com/" target="_blank" class="document-link">공식 웹사이트</a> 또는 위챗 계정 확인 필수.</span></p>
+                        <p>아침: <span class="restaurant-name">위즈란 스몰 누들 (吴记怪味面)</span> (숙소 근처 면 요리 전문점)
+                            <a href="maps://?q=%E5%90%B4%E8%AE%B0%E6%80%AA%E5%91%B3%E9%9D%A2%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
+                        <span class="address-info">주소: (가까운 지점 현지 앱으로 확인)</span></p>
+                        <ul><li>각종 면 요리</li></ul>
+                        <p>Jiakun Architects의 대표작 중 하나인 서촌대원을 방문하여 독특한 건축미와 내부의 다양한 문화 공간을 둘러보세요. (택시 이동 권장)</p>
                     </div>
                     <div class="daily-detail-block">
                         <h4>
-                            <span class="detail-icon">🌟</span>
-                            <span class="h4-title-text">점심 (미슐랭): 타이쿠리</span>
+                            <span class="detail-icon">🍜</span>
+                            <span class="h4-title-text">점심: 서촌대원 내 또는 근처</span>
+                        </h4>
+                        <p><span class="restaurant-name">서촌대원 내부 식당</span> 또는 근처 현지인 맛집에서 점심 식사를 즐기세요.</p>
+                        <p class="address-info">다양한 선택지가 있으니 현지에서 둘러보고 결정하세요.</p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🎨</span>
+                            <span class="h4-title-text">오후: 지 미술관 (知美术馆, Zhi Art Museum)</span>
+                             <a href="maps://?q=Zhi%20Art%20Museum%2C%E6%88%90%E9%83%BD%E5%B8%82%E6%96%B0%E6%B4%A5%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>지 미술관</a>
+                        </h4>
+                        <p>서촌대원에서 택시로 이동하여 지 미술관을 관람합니다. (약 30-40분 소요)</p>
+                        <p><span class="important-text">방문 시점 진행 전시 및 예약 정보 <a href="http://www.zhiartmuseum.com/" target="_blank" class="document-link">공식 웹사이트</a> 확인 필수.</span></p>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🥤</span>
+                            <span class="h4-title-text">오후 음료: HEYTEA 타이쿠리점</span>
+                            <a href="maps://?q=HEYTEA%20Chengdu%20Taikoo%20Li" target="_blank" class="map-link"><span class="map-icon">📍</span>지도</a>
+                        </h4>
+                        <p><span class="restaurant-name">HEYTEA (喜茶) 타이쿠리점</span></p>
+                        <ul>
+                            <li>금봉차왕 치즈티 <span class="menu-item-cn">(金凤茶王芝士茗茶)</span></li>
+                            <li>계절 한정 과일 음료</li>
+                        </ul>
+                    </div>
+                    <div class="daily-detail-block">
+                        <h4>
+                            <span class="detail-icon">🌶️</span>
+                            <span class="h4-title-text">저녁: 타이쿠리 사천요리</span>
                         </h4>
                         <p><span class="restaurant-name">마왕즈 (马旺子) 타이쿠리점</span>
                             <a href="maps://?q=%E9%A9%AC%E6%97%BA%E5%AD%90%E5%A4%AA%E5%8F%A4%E9%87%8C%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
                         <span class="address-info">주소: 四川省成都市锦江区东糠市街1号</span> - <span class="important-text">예약 또는 오픈 시간 방문</span>.</p>
                         <ul>
                             <li>궁보기정 <span class="menu-item-cn">(宫保鸡丁, 꿍바오지딩)</span></li>
-                            <li>마파두부 <span class="menu-item-cn">(麻婆豆腐, 마포더우푸)</span></li>
-                            <li>모혈왕 <span class="menu-item-cn">(毛血旺, 마오쉬에왕)</span></li>
                             <li>첨피오리 <span class="menu-item-cn">(甜皮鸭, 티앤피야)</span></li>
-                        </ul>
-                    </div>
-                    <div class="daily-detail-block">
-                        <h4>
-                            <span class="detail-icon">🛍️</span>
-                            <span class="h4-title-text">오후: 타이쿠리 (太古里)와 춘시루 (春熙路) 쇼핑 및 자유시간</span>
-                        </h4>
-                        <p>추천: 팡수오 서점
-                            <a href="maps://?q=%E6%96%B9%E6%89%80%E6%88%90%E9%83%BD%E5%BA%97%2C%E5%A4%AA%E5%8F%A4%E9%87%8C" target="_blank" class="map-link"><span class="map-icon">📍</span>팡수오 서점</a>
-                        , IFS 판다 조형물
-                            <a href="maps://?q=IFS%E7%86%8A%E7%8C%AB%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>IFS 판다</a>
-                        , MUJI.</p>
-                    </div>
-                    <div class="daily-detail-block">
-                        <h4>
-                            <span class="detail-icon">🦆</span>
-                            <span class="h4-title-text">저녁: 춘시루 오리구이</span>
-                        </h4>
-                        <p><span class="restaurant-name">장 카오야 (张烤鸭) 춘시루점 (青年路店)</span>
-                            <a href="maps://?q=%E5%BC%A0%E7%83%A4%E9%B8%AD%E9%9D%92%E5%B9%B4%E8%B7%AF%E5%BA%97%2C%E6%88%90%E9%83%BD" target="_blank" class="map-link"><span class="map-icon">📍</span>식당 지도</a>
-                        <span class="address-info">주소: 四川省成都市锦江区青年路89号益华大厦三楼</span></p>
-                        <ul>
-                            <li>마오 카오야 <span class="menu-item-cn">(冒烤鸭, 마오카오야 - 국물 있는 오리구이)</span></li>
-                            <li>시에황 더우푸 <span class="menu-item-cn">(蟹黄豆腐, 시에황더우푸 - 게알 두부)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -994,6 +1059,7 @@
                         <p>09:05: 청두 톈푸 국제공항(TFU) T1 출발 (쓰촨항공 3U3973).
                             <a href="maps://?q=%E6%88%90%E9%83%BD%E5%A4%A9%E5%BA%9C%E5%9B%BD%E9%99%85%E6%9C%BA%E5%9C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>공항 지도</a>
                         </p>
+                        <p>아침 식사: 이른 출발로 인해 숙소 근처에서 간단히 해결하거나 공항 식당을 이용합니다.</p>
                         <p>공항 이동: 오전 6시경 숙소 출발 (택시/디디 또는 지하철).</p>
                     </div>
                 </div>
@@ -1054,7 +1120,7 @@
                         </h4>
                         <h5>1일차 (여행 4일차): 청두 → 황룡 → 구채구구</h5>
                         <ul>
-                            <li>오전: 청두동역<span class="station-name-cn">(成都东站)</span> 출발 → 전장관역<span class="station-name-cn">(镇江关站)</span> 도착 → 황룡 이동.</li>
+                            <li>오전: 숙소 근처 또는 청두동역에서 아침 식사 후 청두동역<span class="station-name-cn">(成都东站)</span> 출발 → 전장관역<span class="station-name-cn">(镇江关站)</span> 도착 → 황룡 이동.</li>
                             <li>황룡 국립공원 탐방 (약 5시간, 케이블카 상행 추천).
                                 <a href="maps://?q=%E9%BB%84%E9%BE%99%E5%9B%BD%E5%AE%B6%E7%BA%A7%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C%E5%8C%BA" target="_blank" class="map-link"><span class="map-icon">📍</span>황룡 지도</a>
                             </li>
@@ -1066,7 +1132,7 @@
                         </ul>
                         <h5>2일차 (여행 5일차): 구채구 → 청두 복귀</h5>
                         <ul>
-                            <li>오전/오후: 구채구 국립공원 집중 탐방 (약 8.5시간, Y자 코스).
+                            <li>오전/오후: 구채구 숙소 근처에서 아침 식사 후, 구채구 국립공원 집중 탐방 (약 8.5시간, Y자 코스).
                                 <a href="maps://?q=%E4%B9%9D%E5%AF%A8%E6%B2%9F%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD" target="_blank" class="map-link"><span class="map-icon">📍</span>구채구 지도</a>
                             </li>
                             <li>점심: 공원 내 누오르랑 센터 또는 간편식.</li>
@@ -1204,21 +1270,24 @@
                 <span class="section-icon">💡</span>
                 <h2 class="section-title-text">중요 여행 조언</h2>
             </div>
-            <div class="info-card">
-                 <ul>
-                    <li><strong>사전 예약 철저:</strong> 항공권, 숙소, <span class="important-text">고속철도 티켓 (특히 청두-전장관)</span>은 최대한 빨리 예약.</li>
-                    <li><strong>고산병 대비:</strong> <span class="important-text">휴대용 산소통 준비</span>, 무리하지 않기, 증상 시 즉시 대처.</li>
-                    <li><strong>현지 앱 적극 활용:</strong>
-                        <ul>
-                            <li>지도: <span class="important-text">바이두/가오더 지도 (오프라인 저장)</span>.</li>
-                            <li>맛집/정보: <span class="important-text">다중뎬핑, 샤오홍슈</span>.</li>
-                            <li>번역: <span class="important-text">바이두 번역, 파파고 (오프라인)</span>.</li>
-                            <li>결제: <span class="important-text">알리페이/위챗페이</span>.</li>
-                        </ul>
-                    </li>
-                    <li><strong>필수품:</strong> VPN, 보조배터리, 상비약, 자외선 차단 용품, 물티슈.</li>
-                    <li><strong>안전과 유연성:</strong> 소지품 관리, 긴급 연락처 숙지, 현지 상황에 따른 계획 조절.</li>
-                </ul>
+            <div class="key-info-item"> <!-- 클래스명을 key-info-item으로 변경하여 다른 정보 카드와 통일성 부여 -->
+                 <div class="key-info-content" style="margin-left:0;"> <!-- 내부 컨텐츠 마진 조정 -->
+                    <ul>
+                        <li><strong>사전 예약 철저:</strong> 항공권, 숙소, <span class="important-text">고속철도 티켓 (특히 청두-전장관)</span>은 최대한 빨리 예약.</li>
+                        <li><strong>고산병 대비:</strong> <span class="important-text">휴대용 산소통 준비</span>, 무리하지 않기, 증상 시 즉시 대처.</li>
+                        <li><strong>현지 앱 적극 활용:</strong>
+                            <ul>
+                                <li>지도: <span class="important-text">바이두/가오더 지도 (오프라인 저장)</span>.</li>
+                                <li>맛집/정보: <span class="important-text">다중뎬핑, 샤오홍슈</span>.</li>
+                                <li>번역: <span class="important-text">바이두 번역, 파파고 (오프라인)</span>.</li>
+                                <li>결제: <span class="important-text">알리페이/위챗페이</span>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>필수품:</strong> VPN, 보조배터리, 상비약, 자외선 차단 용품, 물티슈.</li>
+                        <li><strong>안전과 유연성:</strong> 소지품 관리, 긴급 연락처 숙지, 현지 상황에 따른 계획 조절.</li>
+                        <li><strong>날씨 대비:</strong> 6월 청두는 덥고 습하며 강수 가능성이 있습니다. 편안한 신발, 가벼운 옷, 자외선 차단 용품, 작은 우산을 준비하세요. 구채구/황룡은 고산 기후에 대비한 옷차림이 필요합니다.</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
@@ -1244,19 +1313,19 @@
                 localStorage.setItem(this.id, this.checked);
             });
         });
-    });
 
-    // 최상단으로 이동 버튼 스크립트
-    const scrollToTopBtn_index = document.getElementById('scrollToTopBtn');
-    if (scrollToTopBtn_index) {
-        window.addEventListener('scroll', function() {
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                scrollToTopBtn_index.style.display = "block";
-            } else {
-                scrollToTopBtn_index.style.display = "none";
-            }
-        });
-    }
+        // 최상단으로 이동 버튼 스크립트
+        const scrollToTopBtn_index = document.getElementById('scrollToTopBtn');
+        if (scrollToTopBtn_index) {
+            window.addEventListener('scroll', function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    scrollToTopBtn_index.style.display = "block";
+                } else {
+                    scrollToTopBtn_index.style.display = "none";
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>
