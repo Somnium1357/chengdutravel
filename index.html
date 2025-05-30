@@ -30,6 +30,7 @@
             color: var(--text-primary);
             font-size: 16px;
             line-height: 1.6;
+            -webkit-tap-highlight-color: transparent; /* 터치 시 하이라이트 색상 제거 */
         }
 
         .page-container {
@@ -1017,29 +1018,48 @@
             </div>
         </section>
 
-        <footer class="page-footer">
-            <p>이 계획이 즐겁고 안전한 청두 여행에 도움이 되기를 바랍니다!</p>
-            <p>© 2025 Notion 스타일 청두 여행 플래너</p>
+<!-- ... (파일 하단의 다른 내용들) ... -->
+    <footer class="page-footer">
+        <p>이 계획이 즐겁고 안전한 청두 여행에 도움이 되기를 바랍니다!</p>
+        <p>© 2025 Notion 스타일 청두 여행 플래너</p>
     </footer>
-    </div> <!-- .page-container 닫는 태그 -->
+</div> <!-- .page-container 닫는 태그 -->
 
-    <script>
-        // ToDo List 체크 상태 저장 및 로드
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('.todo-item input[type="checkbox"]');
+<!-- ========== 추가된 코드 시작 ========== -->
+<a href="#" id="scrollToTopBtn" title="맨 위로 이동" style="position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; text-decoration: none; display: none; z-index: 100;">↑</a>
+<!-- ========== 추가된 코드 끝 ========== -->
 
-            // 페이지 로드 시 저장된 상태 불러오기
-            checkboxes.forEach(checkbox => {
-                const savedState = localStorage.getItem(checkbox.id);
-                if (savedState === 'true') {
-                    checkbox.checked = true;
-                }
-                // 체크박스 상태 변경 시 localStorage에 저장
-                checkbox.addEventListener('change', function() {
-                    localStorage.setItem(this.id, this.checked);
-                });
+<script>
+    // ToDo List 체크 상태 저장 및 로드
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.todo-item input[type="checkbox"]');
+
+        // 페이지 로드 시 저장된 상태 불러오기
+        checkboxes.forEach(checkbox => {
+            const savedState = localStorage.getItem(checkbox.id);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+            }
+            // 체크박스 상태 변경 시 localStorage에 저장
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
             });
         });
-    </script>
+    });
+
+    // ========== 추가된 코드 시작 ==========
+    // 최상단으로 이동 버튼 스크립트
+    const scrollToTopBtn_index = document.getElementById('scrollToTopBtn');
+    if (scrollToTopBtn_index) {
+        window.addEventListener('scroll', function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                scrollToTopBtn_index.style.display = "block";
+            } else {
+                scrollToTopBtn_index.style.display = "none";
+            }
+        });
+    }
+    // ========== 추가된 코드 끝 ==========
+</script>
 </body>
 </html>
