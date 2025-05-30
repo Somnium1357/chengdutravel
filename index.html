@@ -64,6 +64,12 @@
             grid-template-columns: repeat(2, 1fr); /* 모바일에서 기본 2칸 */
         }
 
+        /* 더 넓은 화면(예: 태블릿 가로모드 이상)에서는 3칸으로 표시 */
+        @media (min-width: 768px) {
+            .overview-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
         @media (min-width: 768px) {
             .overview-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -1014,7 +1020,26 @@
         <footer class="page-footer">
             <p>이 계획이 즐겁고 안전한 청두 여행에 도움이 되기를 바랍니다!</p>
             <p>© 2025 Notion 스타일 청두 여행 플래너</p>
-        </footer>
-    </div>
+    </footer>
+    </div> <!-- .page-container 닫는 태그 -->
+
+    <script>
+        // ToDo List 체크 상태 저장 및 로드
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.todo-item input[type="checkbox"]');
+
+            // 페이지 로드 시 저장된 상태 불러오기
+            checkboxes.forEach(checkbox => {
+                const savedState = localStorage.getItem(checkbox.id);
+                if (savedState === 'true') {
+                    checkbox.checked = true;
+                }
+                // 체크박스 상태 변경 시 localStorage에 저장
+                checkbox.addEventListener('change', function() {
+                    localStorage.setItem(this.id, this.checked);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
