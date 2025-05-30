@@ -60,9 +60,17 @@
         
         .overview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+            grid-template-columns: repeat(2, 1fr); /* 모바일에서 기본 2칸 */
         }
+
+        /* 더 넓은 화면(예: 태블릿 가로모드 이상)에서는 3칸으로 표시 */
+        @media (min-width: 768px) {
+            .overview-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         .overview-card {
             background-color: var(--card-bg-color);
             padding: 15px;
@@ -162,7 +170,7 @@
         .restaurant-name { color: var(--accent-color); font-weight: 500; }
         .address-info { font-size: 0.85em; color: #777; margin-top: 2px; display: block; }
         .important-text { color: var(--critical-accent-color); font-weight: 500; }
-        .menu-item-cn { color: #bbb; font-size: 0.9em;} /* 메뉴 현지어/발음 스타일 */
+        .menu-item-cn { color: #bbb; font-size: 0.9em;} 
 
         /* To Do List */
         .todo-section { margin-bottom: 20px; }
@@ -744,16 +752,16 @@
                 <span class="callout-icon">⚠️</span>
                 <p class="callout-text"><strong>중요!</strong> 2025년 기준 교통편 등 변동 가능성 매우 높음. <strong>현장 확인 및 사전 문의 필수.</strong></p>
             </div>
-            <details class="daily-plan-entry">
-                <summary class="daily-plan-summary">
-                    <span class="daily-summary-icon">🗺️</span>
+            <details class="daily-plan-entry"> 
+                <summary class="daily-plan-summary"> 
+                    <span class="daily-summary-icon">🗺️</span> 
                     <div class="daily-summary-info">
                         <div class="daily-summary-date">1박 2일 상세 계획</div>
                         <div class="daily-summary-theme">고산지대의 아름다움, 황룡과 구채구 탐험</div>
                     </div>
                     <span class="daily-plan-toggle-icon">›</span>
                 </summary>
-                <div class="daily-plan-details">
+                <div class="daily-plan-details"> 
                     <div class="daily-detail-block">
                         <h4><span class="detail-icon">🚂</span>A. 이동: 청두동역<span class="station-name-cn">(成都东站)</span> → 전장관역<span class="station-name-cn">(镇江关站)</span></h4>
                         <p>고속철도 이용 (<span class="important-text">필수 사전 예매</span>).</p>
@@ -808,51 +816,70 @@
             <div class="todo-section">
                 <h4>여행 전 체크리스트</h4>
                 <ul class="todo-list">
-                    <li class="todo-item"><input type="checkbox" id="todo1" checked><label for="todo1">중국 비자 발급 확인</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo2" checked><label for="todo2">항공권 및 숙소 예약 완료</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo3"><label for="todo3">고속철도 티켓 예매 (청두-전장관)</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo4" checked><label for="todo4">여행자 보험 가입 (AXA)</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo5"><label for="todo5">VPN 설치 및 테스트</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo6"><label for="todo6">알리페이/위챗페이 준비</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo7"><label for="todo7">위안화 환전</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre1" checked><label for="todoPre1">중국 비자 발급 (또는 유효기간 확인)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre2" checked><label for="todoPre2">여권 유효기간 6개월 이상 확인</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre3" checked><label for="todoPre3">항공권 예약 및 E-Ticket 확보</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre4" checked><label for="todoPre4">숙소 예약 및 바우처 확보 (청두, 구채구)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre5"><label for="todoPre5">고속철도 티켓 예매 (청두-전장관 왕복 등)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre6" checked><label for="todoPre6">여행자 보험 가입 (보장내역 확인)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre7"><label for="todoPre7">위안화 환전 (소액 현금 필요)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre8"><label for="todoPre8">알리페이/위챗페이 준비 및 충전 (중국 필수)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre9"><label for="todoPre9">VPN 설치 및 한국에서 테스트 (여러 개 준비 권장)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre10"><label for="todoPre10">로밍 또는 현지 유심/eSIM 구매 및 설정 방법 확인</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre11"><label for="todoPre11">국제운전면허증 (필요시, 중국 본토 사용 제한적)</label></li>
                     <li class="todo-item">
-                        <input type="checkbox" id="todo8">
-                        <label for="todo8">상비약 준비</label>
+                        <input type="checkbox" id="todoPre12">
+                        <label for="todoPre12">상비약 준비 (구체적 목록)</label>
                         <details>
                             <summary></summary>
                             <ul>
-                                <li><strong>개인 복용약:</strong> 평소 복용하는 약 (필수)</li>
+                                <li><strong>개인 복용약:</strong> 평소 복용하는 약 (필수, 영문 처방전 지참 고려)</li>
                                 <li><strong>고산병 관련:</strong>
                                     <ul>
                                         <li>예방/치료약 (의사 상담 후 처방, 예: 다이아목스)</li>
                                         <li>홍경천 (红景天, 현지 구매 가능, 예방 목적)</li>
-                                        <li>휴대용 산소통 (현지 구매 가능)</li>
+                                        <li>휴대용 산소통 (현지 구매)</li>
                                     </ul>
                                 </li>
-                                <li><strong>일반 의약품:</strong> 해열/진통제 (타이레놀 등), 소화제, 지사제, 종합감기약, 멀미약</li>
-                                <li><strong>외상용품:</strong> 밴드, 소독약, 멸균 거즈, 연고</li>
-                                <li><strong>기타:</strong> 벌레 물린데 바르는 약, 인공눈물, 마스크</li>
+                                <li><strong>일반 의약품:</strong> 해열/진통제 (타이레놀, 이부프로펜 등), 소화제 (훼스탈 등), 지사제, 변비약, 종합감기약, 멀미약</li>
+                                <li><strong>외상용품:</strong> 밴드 (일반/방수/대형), 소독약 (스틱/스왑), 멸균 거즈, 의료용 테이프, 작은 가위/핀셋, 항생제 연고</li>
+                                <li><strong>기타:</strong> 벌레 물린데 바르는 약, 벌레 퇴치제, 인공눈물, 일회용 마스크, 손 소독제</li>
                             </ul>
                         </details>
                     </li>
-                    <li class="todo-item"><input type="checkbox" id="todo9"><label for="todo9">로밍 또는 현지 SIM/eSIM 준비</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre13"><label for="todoPre13">여행용 어댑터 (중국 전압 220V, 플러그 모양 확인)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre14"><label for="todoPre14">보조 배터리 및 충전 케이블 (여러 개 준비)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre15"><label for="todoPre15">개인 위생용품 (칫솔, 치약, 샴푸, 린스, 바디워시 등)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre16"><label for="todoPre16">선크림, 선글라스, 모자 (고산지대 자외선 강함)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre17"><label for="todoPre17">편한 신발 (운동화, 트레킹화 등)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre18"><label for="todoPre18">계절 및 고도에 맞는 옷차림 (겹쳐 입는 옷, 방수/방풍 자켓 등)</label></li>
+                     <li class="todo-item"><input type="checkbox" id="todoPre19"><label for="todoPre19">작은 가방 또는 백팩 (일상 소지품용)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre20"><label for="todoPre20">물티슈, 휴대용 휴지</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre21"><label for="todoPre21">간단한 간식 (비상용 또는 이동 중 섭취)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre22"><label for="todoPre22">카메라 및 관련 장비 (배터리, 메모리카드)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre23"><label for="todoPre23">중요 서류 사본 준비 (여권, 비자, 항공권, 보험증서 등 - 실물과 별도 보관 또는 클라우드 저장)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre24"><label for="todoPre24">간단한 중국어 회화 또는 번역 앱 설치 및 테스트</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre25"><label for="todoPre25">여행 일정 및 주요 정보 출력 또는 오프라인 저장</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPre26"><label for="todoPre26">집 비우기 전 점검 (가스, 전기, 창문 등)</label></li>
                 </ul>
             </div>
             <div class="todo-section">
                 <h4>여행 중 체크리스트</h4>
                  <ul class="todo-list">
-                    <li class="todo-item"><input type="checkbox" id="todo10"><label for="todo10">매일 저녁 다음 날 일정 및 교통편 확인</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo11"><label for="todo11">고산지대 활동 시 수분 충분히 섭취</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo12"><label for="todo12">보조 배터리 충전 확인</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo12"><label for="todo12">일기 쓰기</label></li>
-
+                    <li class="todo-item"><input type="checkbox" id="todoMid1"><label for="todoMid1">매일 저녁 다음 날 일정 및 교통편 확인</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoMid2"><label for="todoMid2">고산지대 활동 시 수분 충분히 섭취</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoMid3"><label for="todoMid3">보조 배터리 충전 확인</label></li>
+                     <li class="todo-item"><input type="checkbox" id="todoMid4"><label for="todoMid4">일일 경비 기록 (간단하게라도)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoMid5"><label for="todoMid5">소지품 분실 주의</label></li>
                 </ul>
             </div>
              <div class="todo-section">
                 <h4>여행 후 체크리스트</h4>
                  <ul class="todo-list">
-                    <li class="todo-item"><input type="checkbox" id="todo14"><label for="todo14">여행 경비 정산</label></li>
-                    <li class="todo-item"><input type="checkbox" id="todo15"><label for="todo15">사진 및 영상 백업/정리</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPost1"><label for="todoPost1">여행 경비 정산</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPost2"><label for="todoPost2">사진 및 영상 백업/정리</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPost3"><label for="todoPost3">여행 후기 작성 (선택)</label></li>
+                    <li class="todo-item"><input type="checkbox" id="todoPost4"><label for="todoPost4">빌린 물건 반납 및 감사 인사</label></li>
                 </ul>
             </div>
         </section>
@@ -924,7 +951,7 @@
                 <div class="document-card-content">
                     <p><strong>승객:</strong> LEE/DONGHA / <strong>PNR:</strong> MG6KE4</p>
                     <p><strong>항공사:</strong> 쓰촨항공 (3U3974 / 3U3973)</p>
-                    <p><a href="https://Somnium1357.github.io/chengdutravel/E-Ticket_LEE_DONGHA.pdf" target="_blank" class="document-link">E-Ticket_Trip.com.pdf 보기/다운로드</a></p>
+                    <p><a href="https://Somnium1357.github.io/chengdutravel/E-Ticket_Trip.com.pdf" target="_blank" class="document-link">E-Ticket_Trip.com.pdf 보기/다운로드</a></p>
                 </div>
             </div>
             <div class="document-card">
