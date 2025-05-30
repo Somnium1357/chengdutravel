@@ -310,7 +310,11 @@
         .document-card-icon, .key-info-icon { font-size: 1.5em; margin-right: 10px; color: var(--text-primary); float: left; }
         .document-card-title, .key-info-title { font-size: 1.1em; font-weight: 500; color: var(--text-primary); margin-bottom: 5px; margin-left: 40px;}
         .document-card-content, .key-info-content { font-size: 0.9em; margin-left: 40px; }
-        .document-card-content p, .key-info-content p { margin-bottom: 4px; word-break: keep-all; }
+        .document-card-content p, .key-info-content p { 
+        margin-bottom: 4px; 
+        overflow-wrap: break-word; /* 긴 단어/URL 줄바꿈 */
+    }
+
         .document-link { color: var(--accent-color); font-size: 0.85em; display: inline-block; margin-top: 5px; }
 
         .page-footer {
